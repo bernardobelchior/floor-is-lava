@@ -7,8 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.scriptbakers.floorislava.FloorIsLava;
-import com.scriptbakers.floorislava.GameScreen;
+import com.scriptbakers.floorislava.screens.GameScreen;
 
 import java.awt.geom.Point2D;
 
