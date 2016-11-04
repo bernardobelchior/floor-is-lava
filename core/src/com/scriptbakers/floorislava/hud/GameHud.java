@@ -38,7 +38,10 @@ public class GameHud {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("touchDown"); //FIXME debug only
                 //TODO insert arrow
+                //TODO check if not pressing any button
                 screen.hud.createJumpVector(x,y);
+
+                return true;
             }
 
             @Override
@@ -46,7 +49,6 @@ public class GameHud {
                 System.out.println("dragging..."); //FIXME debug only
                 //TODO scale arrow
                 screen.hud.updateJumpVector(x,y);
-
 
             }
 
@@ -82,7 +84,7 @@ public class GameHud {
     }
 
     public Vector2 getJumpVector(){
-        return  jumpVector;
+        return jumpVector;
     }
 
 
