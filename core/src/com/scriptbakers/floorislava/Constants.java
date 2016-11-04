@@ -12,6 +12,10 @@ public class Constants {
         RIGHT, LEFT
     }
 
+    public enum GameState {
+        OVER, PAUSED, RUNNING
+    }
+
     public static final int WORLD_WIDTH = 1024;
     public static final int WORLD_HEIGHT = 2048;
 
