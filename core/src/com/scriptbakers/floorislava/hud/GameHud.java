@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.scriptbakers.floorislava.logic.Game;
-import com.scriptbakers.floorislava.screens.GameScreen;
 
 import java.awt.geom.Point2D;
 
@@ -55,7 +54,7 @@ public class GameHud {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("touchUp"); //FIXME debug only
                 //TODO remove arrow
-                game.getPlayer().jump(getJumpVector());
+                game.player.jump(getJumpVector());
                 deleteJumpVector();
             }
         };

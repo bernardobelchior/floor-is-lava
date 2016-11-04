@@ -24,17 +24,18 @@ public class Player {
     boolean jumping;
     Body body;
 
-    public Player(World world, int x, int y){
+    public Player(World world, int x, int y, int width, int height){
         this.position = new Vector2(x,y);
         this.jumping = false;
 
+        /* Creates the player in the world. */
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(WORLD_WIDTH/2, WORLD_HEIGHT/5);
+        bodyDef.position.set(x, y);
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        Body body = world.createBody(bodyDef);
+        body = world.createBody(bodyDef);
 
         PolygonShape player = new PolygonShape();
-        player.setRadius(WORLD_WIDTH/10);
+        player.setAsBox(width, height);
         body.createFixture(player, 1);
 
         player.dispose();

@@ -12,23 +12,12 @@ import static com.scriptbakers.floorislava.FloorIsLava.WORLD_WIDTH;
  */
 
 public class Game {
-    World world;
-    Player player;
+    public final World world;
+    public final Player player;
 
     public Game() {
         world = new World(INITIAL_GRAVITY, true);
-
-        player = new Player(world, WORLD_WIDTH/2, WORLD_HEIGHT/5); //FIXME: fix x and y;
-
-
-    }
-
-    public World getWorld() {
-        return world;
-    }
-
-    public Player getPlayer() {
-        return player;
+        player = new Player(world, WORLD_WIDTH/2, WORLD_HEIGHT/5, WORLD_WIDTH/12, WORLD_HEIGHT/30); //FIXME: fix x and y;
     }
 
     public void update(float delta) {
