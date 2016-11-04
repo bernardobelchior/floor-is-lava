@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.scriptbakers.floorislava.logic.Game;
+import com.scriptbakers.floorislava.logic.gameentities.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scriptbakers.floorislava.logic.gameentities.Player;
 import com.scriptbakers.floorislava.hud.GameHud;

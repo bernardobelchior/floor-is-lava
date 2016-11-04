@@ -1,4 +1,4 @@
-package com.scriptbakers.floorislava.logic;
+package com.scriptbakers.floorislava.logic.gameentities;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;

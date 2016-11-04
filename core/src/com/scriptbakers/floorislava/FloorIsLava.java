@@ -4,7 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
-import com.scriptbakers.floorislava.logic.Game;
+import com.scriptbakers.floorislava.logic.gameentities.Game;
 import com.scriptbakers.floorislava.screens.GameScreen;
 
 
