@@ -1,5 +1,6 @@
 package com.scriptbakers.floorislava.hud;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.scriptbakers.floorislava.FloorIsLava;
+import com.scriptbakers.floorislava.GameScreen;
 
 import java.awt.geom.Point2D;
 
@@ -16,31 +18,34 @@ import java.awt.geom.Point2D;
 
 public class GameHud {
 
-    FloorIsLava game; //FIXME remove;
     Stage stage;
     Table table;
     Viewport vport;
     Point2D.Float jumpOrigin;
     Vector2 jumpVector;
+    GameScreen screen;
+    SpriteBatch batch;
     //TODO display score
     InputListener inputListener;
 
-    public GameHud(FloorIsLava game){
-        this.game = game;
+    public GameHud(final GameScreen screen, SpriteBatch batch){
+        this.screen = screen;
+        this.batch = batch;
+
         this.stage = new Stage(); //TODO add viewport and batch
         this.inputListener = new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("touchDown"); //FIXME debug only
                 //TODO insert arrow
-                game.hud.createJumpVector(x,y);
+                screen.hud.createJumpVector(x,y);
             }
 
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
                 System.out.println("dragging..."); //FIXME debug only
                 //TODO scale arrow
-                game.hud.updateJumpVector(x,y);
+                screen.hud.updateJumpVector(x,y);
 
 
             }
@@ -49,8 +54,8 @@ public class GameHud {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("touchUp"); //FIXME debug only
                 //TODO remove arrow
-                game.player.jump(game.hud.getJumpVector());
-                game.hud.deleteJumpVector();
+                screen.player.jump(screen.hud.getJumpVector());
+                screen.hud.deleteJumpVector();
             }
         };
 
@@ -74,6 +79,10 @@ public class GameHud {
             this.jumpVector = null;
             this.jumpOrigin = null;
         }
+    }
+
+    public Vector2 getJumpVector(){
+        return  jumpVector;
     }
 
 
