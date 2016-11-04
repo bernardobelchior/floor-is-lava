@@ -9,9 +9,9 @@ import com.scriptbakers.floorislava.screens.GameScreen;
 
 
 public class FloorIsLava extends ApplicationAdapter {
-	public static int WORLD_WIDTH = 1000;
-	public static int WORLD_HEIGHT = 2000;
-	public static Vector2 INITIAL_GRAVITY = new Vector2(0, -50);
+	public static int WORLD_WIDTH = 1024;
+	public static int WORLD_HEIGHT = 2048;
+	public static Vector2 INITIAL_GRAVITY = new Vector2(0, -64);
 
 	GameScreen screen;
 	Game game;

@@ -3,9 +3,7 @@ package com.scriptbakers.floorislava.logic;
 import com.badlogic.gdx.physics.box2d.World;
 import com.scriptbakers.floorislava.gameentities.Player;
 
-import static com.scriptbakers.floorislava.FloorIsLava.INITIAL_GRAVITY;
-import static com.scriptbakers.floorislava.FloorIsLava.WORLD_HEIGHT;
-import static com.scriptbakers.floorislava.FloorIsLava.WORLD_WIDTH;
+import static com.scriptbakers.floorislava.FloorIsLava.*;
 
 /**
  * Created by bernardo on 04-11-2016.
