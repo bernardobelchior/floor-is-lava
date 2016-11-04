@@ -19,17 +19,15 @@ import com.scriptbakers.floorislava.hud.GameHud;
 
 public class GameScreen implements Screen {
     SpriteBatch batch;
-    World world;
+    Game game;
     Box2DDebugRenderer debugRenderer;
     OrthographicCamera camera;
     FitViewport viewport;
-    public GameHud hud;
-    public Player player;
+    GameHud hud;
 
     public GameScreen(Game game) {
-        this.world = game.getWorld();
-        this.player = new Player(0,0); //FIXME fix x and y;
-        this.hud = new GameHud(this, batch);
+        this.game = game;
+        this.hud = new GameHud(game, batch);
 
         debugRenderer = new Box2DDebugRenderer();
 
@@ -47,7 +45,7 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         camera.update();
 
-        debugRenderer.render(world, camera.combined);
+        debugRenderer.render(game.getWorld(), camera.combined);
     }
 
     @Override
