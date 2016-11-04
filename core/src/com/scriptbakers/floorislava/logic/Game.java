@@ -1,9 +1,10 @@
 package com.scriptbakers.floorislava.logic;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.gameentities.Player;
 
-import static com.scriptbakers.floorislava.FloorIsLava.*;
+import static com.scriptbakers.floorislava.Constants.*;
 
 /**
  * Created by bernardo on 04-11-2016.
@@ -13,12 +14,21 @@ public class Game {
     public final World world;
     public final Player player;
 
+    private int noUpdates;
+    private ObstacleGenerator obstacleGenerator;
+
     public Game() {
-        world = new World(INITIAL_GRAVITY, true);
-        player = new Player(world, WORLD_WIDTH/2, WORLD_HEIGHT/5, WORLD_WIDTH/12, WORLD_HEIGHT/30); //FIXME: fix x and y;
+        world = new World(Constants.INITIAL_GRAVITY, true);
+        player = new Player(world, PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_WIDTH, PLAYER_HEIGHT);
+        obstacleGenerator = new ObstacleGenerator(world);
+        noUpdates = 0;
     }
 
     public void update(float delta) {
         world.step(1/delta, 6, 2);
+        noUpdates++;
+
+        if(noUpdates % (60/ OBSTACLE_GENENATION_PER_SECOND) == 0)
+            obstacleGenerator.generateObstacle(Math.round(player.getPosition().y));
     }
 }

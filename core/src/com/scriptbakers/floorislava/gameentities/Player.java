@@ -6,11 +6,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-import java.awt.Point;
-
-import static com.scriptbakers.floorislava.FloorIsLava.WORLD_HEIGHT;
-import static com.scriptbakers.floorislava.FloorIsLava.WORLD_WIDTH;
-
 
 /**
  * Created by epassos on 11/4/16.
@@ -22,7 +17,7 @@ public class Player {
     Vector2 position;
     int score;
     boolean jumping;
-    Body body;
+    public final Body body;
 
     public Player(World world, int x, int y, int width, int height){
         this.position = new Vector2(x,y);
@@ -31,17 +26,22 @@ public class Player {
         /* Creates the player in the world. */
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(x, y);
-        bodyDef.type = BodyDef.BodyType.KinematicBody;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bodyDef);
 
         PolygonShape player = new PolygonShape();
         player.setAsBox(width, height);
         body.createFixture(player, 1);
+        body.setGravityScale(0);
 
         player.dispose();
     }
 
     public void jump(Vector2 jumpVector){
         this.jumping = true;
+    }
+
+    public Vector2 getPosition() {
+        return position;
     }
 }

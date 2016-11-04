@@ -1,15 +1,12 @@
 package com.scriptbakers.floorislava.screens;
 
-import static com.scriptbakers.floorislava.FloorIsLava.*;
-
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.logic.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.scriptbakers.floorislava.gameentities.Player;
 import com.scriptbakers.floorislava.hud.GameHud;
 
 
@@ -31,9 +28,9 @@ public class GameScreen implements Screen {
 
         debugRenderer = new Box2DDebugRenderer();
 
-        camera = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
-        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
-        camera.position.set(WORLD_WIDTH/2, WORLD_HEIGHT/2, 0);
+        camera = new OrthographicCamera(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
+        viewport = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
+        camera.position.set(Constants.WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
     }
 
     @Override
