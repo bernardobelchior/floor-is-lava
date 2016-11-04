@@ -83,6 +83,14 @@ public class GameHud {
 
     public void updateJumpVector(float x, float y){
         Vector2 tempVec = new Vector2(x - jumpOrigin.x, y - jumpOrigin.y);
+
+        if(tempVec.angle() > 0 && tempVec.angle() < 90)
+            tempVec.setAngle(0);
+
+        else if(tempVec.angle() > 90 && tempVec.angle() < 180)
+            tempVec.setAngle(180);
+
+
         if (tempVec.len() <= Constants.MAX_JUMPVEC_LEN) {
             this.jumpVector.set(tempVec);
             System.out.println("UPDATING VECTOR!!!\n" + tempVec.len());
