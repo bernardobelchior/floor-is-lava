@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.scriptbakers.floorislava.logic.Game;
 import com.scriptbakers.floorislava.screens.GameScreen;
 
 import java.awt.geom.Point2D;
@@ -22,14 +23,13 @@ public class GameHud {
     Viewport vport;
     Point2D.Float jumpOrigin;
     Vector2 jumpVector;
-    GameScreen screen;
     SpriteBatch batch;
     //TODO display score
     InputListener inputListener;
 
-    public GameHud(final GameScreen screen, SpriteBatch batch){
-        this.screen = screen;
+    public GameHud(final Game game, SpriteBatch batch){
         this.batch = batch;
+
 
         this.stage = new Stage(); //TODO add viewport and batch
         this.inputListener = new InputListener(){
@@ -38,7 +38,7 @@ public class GameHud {
                 System.out.println("touchDown"); //FIXME debug only
                 //TODO insert arrow
                 //TODO check if not pressing any button
-                screen.hud.createJumpVector(x,y);
+                createJumpVector(x,y);
 
                 return true;
             }
@@ -47,7 +47,7 @@ public class GameHud {
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
                 System.out.println("dragging..."); //FIXME debug only
                 //TODO scale arrow
-                screen.hud.updateJumpVector(x,y);
+                updateJumpVector(x,y);
 
             }
 
@@ -55,8 +55,8 @@ public class GameHud {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("touchUp"); //FIXME debug only
                 //TODO remove arrow
-                screen.player.jump(screen.hud.getJumpVector());
-                screen.hud.deleteJumpVector();
+                game.getPlayer().jump(getJumpVector());
+                deleteJumpVector();
             }
         };
 
