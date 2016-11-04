@@ -17,6 +17,19 @@ public class Constants {
 
     public static final Vector2 INITIAL_GRAVITY = new Vector2(0, 0);
 
+    public enum GameState {
+        OVER, PAUSED, RUNNING
+    }
+
+    public static final short CATEGORY_PLAYER = 0x0001;
+    public static final short CATEGORY_OBSTACLE = 0x0002;
+    public static final short CATEGORY_WALL = 0x0004;
+
+    public static final short MASK_PLAYER = CATEGORY_WALL;
+    public static final short MASK_OBSTACLE = 0;
+    public static final short MASK_WALL = CATEGORY_PLAYER;
+
+
     public static final float PLAYER_INITIAL_X = WORLD_WIDTH/2;
     public static final float PLAYER_INITIAL_Y = WORLD_HEIGHT/5;
     public static final float PLAYER_WIDTH = WORLD_WIDTH/12;

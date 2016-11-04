@@ -12,14 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.scriptbakers.floorislava.FloorIsLava;
-import com.scriptbakers.floorislava.logic.gameentities.Game;
-import com.scriptbakers.floorislava.screens.GameScreen;
+import com.scriptbakers.floorislava.logic.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.scriptbakers.floorislava.logic.gameentities.Game;
 import com.scriptbakers.floorislava.Constants;
-
-import java.awt.geom.Point2D;
 
 /**
  * Created by epassos on 11/4/16.

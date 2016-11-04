@@ -4,13 +4,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.scriptbakers.floorislava.FloorIsLava;
-import com.scriptbakers.floorislava.logic.gameentities.Game;
+import com.scriptbakers.floorislava.logic.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.scriptbakers.floorislava.logic.gameentities.Player;
 import com.scriptbakers.floorislava.Constants;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scriptbakers.floorislava.hud.GameHud;
+
+import static com.scriptbakers.floorislava.Constants.GameState.RUNNING;
 
 
 /**
@@ -24,6 +23,7 @@ public class GameScreen implements Screen {
     OrthographicCamera camera;
     FitViewport viewport;
     GameHud hud;
+    boolean renderedOnce;
 
     public GameScreen(Game game, SpriteBatch batch) {
         this.game = game;
@@ -35,6 +35,7 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
         viewport = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
         camera.position.set(Constants.WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
+        renderedOnce = false;
     }
 
     @Override
@@ -44,8 +45,17 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        if(game.getGameState() != RUNNING && renderedOnce)
+            return;
+
+        renderedOnce = true;
+
         camera.update();
         game.update(delta);
+
+        batch.begin();
+        //batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
 
         debugRenderer.render(game.world, camera.combined);
     }

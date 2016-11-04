@@ -1,13 +1,15 @@
 package com.scriptbakers.floorislava.logic.gameentities;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.scriptbakers.floorislava.Constants.Side;
 
-import static com.scriptbakers.floorislava.Constants.*;
+import static com.scriptbakers.floorislava.Constants.CATEGORY_OBSTACLE;
+import static com.scriptbakers.floorislava.Constants.MASK_OBSTACLE;
+import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
 
 
 /**
@@ -34,7 +36,14 @@ public class Obstacle {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
         body = world.createBody(bodyDef);
-        body.createFixture(shape, 1);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.density = 1;
+        fixtureDef.shape = shape;
+        fixtureDef.filter.categoryBits = CATEGORY_OBSTACLE;
+        fixtureDef.filter.maskBits = MASK_OBSTACLE;
+        body.createFixture(fixtureDef);
+
 
         body.setLinearVelocity(0,-10f);
     }

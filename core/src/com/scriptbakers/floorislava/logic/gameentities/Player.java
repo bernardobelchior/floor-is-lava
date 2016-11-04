@@ -1,16 +1,15 @@
 package com.scriptbakers.floorislava.logic.gameentities;
 
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.scriptbakers.floorislava.Constants;
-import com.scriptbakers.floorislava.FloorIsLava;
-import java.awt.geom.Point2D;
 
+import static com.scriptbakers.floorislava.Constants.CATEGORY_PLAYER;
+import static com.scriptbakers.floorislava.Constants.MASK_PLAYER;
 
 
 /**
@@ -20,7 +19,6 @@ import java.awt.geom.Point2D;
 
 
 public class Player {
-
     Vector2 position;
     int score;
     boolean jumping;
@@ -40,10 +38,19 @@ public class Player {
 
         PolygonShape player = new PolygonShape();
         player.setAsBox(width, height);
-        body.createFixture(player, 1);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = player;
+        fixtureDef.filter.categoryBits = CATEGORY_PLAYER;
+        fixtureDef.filter.categoryBits = MASK_PLAYER;
+        fixtureDef.density = 1;
+
+        body.createFixture(fixtureDef);
+        body.setGravityScale(0);
+        body.setUserData(this);
         body.setGravityScale(0);
 
-        this.jumpTime = 0;
+        jumpTime = 0;
 
         player.dispose();
     }
@@ -63,12 +70,12 @@ public class Player {
     }
 
     public void jump(Vector2 jumpVector){
-
         jumping = true;
         body.setLinearVelocity(jumpVector.cpy().scl(50));
         System.out.println(jumpVector.len());
         jumpTime = Math.round(90*jumpVector.len()/ Constants.MAX_JUMPVEC_LEN);
         System.out.println(jumpTime);
+
     }
 
     public Vector2 getPosition() {
