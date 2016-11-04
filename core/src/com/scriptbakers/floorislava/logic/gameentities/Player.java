@@ -57,7 +57,8 @@ public class Player {
     public void jump(Vector2 jumpVector){
 
         jumping = true;
-        body.applyLinearImpulse(jumpVector, body.getWorldCenter(),true);
+        //body.applyLinearImpulse(jumpVector.scl(50), body.getWorldCenter(),true);
+        body.applyForceToCenter(jumpVector.scl(50),true);
 
     }
 }

@@ -64,7 +64,7 @@ public class GameHud {
                 System.out.println("touchUp"); //FIXME debug only
                 //TODO remove arrow
                 endJumpVector();
-                //deleteJumpVector();
+                deleteJumpVector();
             }
         };
 
@@ -94,10 +94,6 @@ public class GameHud {
             this.jumpVector = null;
             this.jumpOrigin = null;
         }
-    }
-
-    public Vector2 getJumpVector(){
-        return jumpVector;
     }
 
 
