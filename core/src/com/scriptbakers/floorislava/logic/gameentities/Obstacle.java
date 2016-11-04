@@ -35,6 +35,8 @@ public class Obstacle {
 
         body = world.createBody(bodyDef);
         body.createFixture(shape, 1);
+
+        body.setLinearVelocity(0,-10f);
     }
 
 }

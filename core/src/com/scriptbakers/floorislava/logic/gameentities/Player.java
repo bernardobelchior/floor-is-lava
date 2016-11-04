@@ -65,7 +65,7 @@ public class Player {
     public void jump(Vector2 jumpVector){
 
         jumping = true;
-        body.applyForceToCenter(jumpVector.cpy().scl(50),true);
+        body.setLinearVelocity(jumpVector.cpy().scl(50));
         System.out.println(jumpVector.len());
         jumpTime = Math.round(90*jumpVector.len()/ Constants.MAX_JUMPVEC_LEN);
         System.out.println(jumpTime);

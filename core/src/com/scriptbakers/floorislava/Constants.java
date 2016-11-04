@@ -15,7 +15,7 @@ public class Constants {
     public static final int WORLD_WIDTH = 256;
     public static final int WORLD_HEIGHT = 512;
 
-    public static final Vector2 INITIAL_GRAVITY = new Vector2(0, -9.8f);
+    public static final Vector2 INITIAL_GRAVITY = new Vector2(0, 0);
 
     public static final float PLAYER_INITIAL_X = WORLD_WIDTH/2;
     public static final float PLAYER_INITIAL_Y = WORLD_HEIGHT/5;
