@@ -1,16 +1,17 @@
-package com.scriptbakers.floorislava;
+package com.scriptbakers.floorislava.screens;
 
 import static com.scriptbakers.floorislava.FloorIsLava.*;
 
-import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.scriptbakers.floorislava.logic.Game;
+
 
 /**
  * Created by bernardo on 04-11-2016.
@@ -22,8 +23,9 @@ public class GameScreen implements Screen {
     OrthographicCamera camera;
     FitViewport viewport;
 
-    GameScreen(World world) {
-        this.world = world;
+
+    public GameScreen(Game game) {
+        this.world = game.getWorld();
 
         debugRenderer = new Box2DDebugRenderer();
 
