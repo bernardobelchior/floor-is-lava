@@ -1,4 +1,4 @@
-package com.scriptbakers.floorislava.gameentities;
+package com.scriptbakers.floorislava.logic.gameentities;
 
 /**
  * Created by epassos on 11/4/16.
