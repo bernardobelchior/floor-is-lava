@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.scriptbakers.floorislava.FloorIsLava;
 import com.scriptbakers.floorislava.logic.gameentities.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scriptbakers.floorislava.logic.gameentities.Player;
@@ -25,8 +26,9 @@ public class GameScreen implements Screen {
     FitViewport viewport;
     GameHud hud;
 
-    public GameScreen(Game game) {
+    public GameScreen(Game game, SpriteBatch batch) {
         this.game = game;
+        this.batch = batch;
         this.hud = new GameHud(game, batch);
 
         debugRenderer = new Box2DDebugRenderer();

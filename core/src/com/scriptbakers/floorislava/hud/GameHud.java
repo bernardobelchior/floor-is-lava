@@ -1,14 +1,18 @@
 package com.scriptbakers.floorislava.hud;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.scriptbakers.floorislava.logic.Game;
+import com.scriptbakers.floorislava.FloorIsLava;
+import com.scriptbakers.floorislava.logic.gameentities.Game;
 import com.scriptbakers.floorislava.screens.GameScreen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 
 import java.awt.geom.Point2D;
 
@@ -21,7 +25,7 @@ public class GameHud {
     Stage stage;
     Table table;
     Viewport vport;
-    Point2D.Float jumpOrigin;
+    Vector2 jumpOrigin;
     Vector2 jumpVector;
     SpriteBatch batch;
     //TODO display score
@@ -29,9 +33,11 @@ public class GameHud {
 
     public GameHud(final Game game, SpriteBatch batch){
         this.batch = batch;
-
-
-        this.stage = new Stage(); //TODO add viewport and batch
+        this.vport = new FitViewport(FloorIsLava.WORLD_WIDTH, FloorIsLava.WORLD_HEIGHT, new OrthographicCamera());
+        this.table = new Table();
+        this.stage = new Stage(this.vport, this.batch);
+        this.stage.addActor(table);
+        Gdx.input.setInputProcessor(stage);
         this.inputListener = new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -60,10 +66,12 @@ public class GameHud {
             }
         };
 
+        this.stage.addListener(inputListener);
+
     }
 
     public void createJumpVector(float x, float y){
-        this.jumpOrigin = new Point2D.Float(x,y);
+        this.jumpOrigin = new Vector2(x,y);
         this.jumpVector = new Vector2(0,0);
 
         //FIXME debug

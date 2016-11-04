@@ -1,7 +1,7 @@
 package com.scriptbakers.floorislava.logic.gameentities;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.scriptbakers.floorislava.gameentities.Player;
+import com.scriptbakers.floorislava.logic.gameentities.Player;
 
 import static com.scriptbakers.floorislava.FloorIsLava.INITIAL_GRAVITY;
 import static com.scriptbakers.floorislava.FloorIsLava.WORLD_HEIGHT;

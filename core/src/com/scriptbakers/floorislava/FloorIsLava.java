@@ -3,6 +3,7 @@ package com.scriptbakers.floorislava;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.scriptbakers.floorislava.logic.gameentities.Game;
 import com.scriptbakers.floorislava.screens.GameScreen;
@@ -12,14 +13,16 @@ public class FloorIsLava extends ApplicationAdapter {
 	public static int WORLD_WIDTH = 1000;
 	public static int WORLD_HEIGHT = 2000;
 	public static Vector2 INITIAL_GRAVITY = new Vector2(0, -50);
+	public SpriteBatch batch;
 
 	GameScreen screen;
 	Game game;
 
 	@Override
 	public void create () {
+		batch = new SpriteBatch();
 		game = new Game();
-		screen = new GameScreen(game);
+		screen = new GameScreen(game, batch);
 	}
 
 	@Override
