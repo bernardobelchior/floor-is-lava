@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.scriptbakers.floorislava.logic.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.scriptbakers.floorislava.gameentities.Player;
+import com.scriptbakers.floorislava.logic.gameentities.Player;
 import com.scriptbakers.floorislava.hud.GameHud;
 
 

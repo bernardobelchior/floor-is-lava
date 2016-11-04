@@ -1,8 +1,8 @@
-package com.scriptbakers.floorislava.gameentities;
+package com.scriptbakers.floorislava.logic.gameentities;
 
 import com.badlogic.gdx.math.Vector2;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 
 
 /**
@@ -12,12 +12,12 @@ import java.awt.Point;
 
 
 public class Player {
-    Point position;
+    Point2D.Float position;
     int score;
     boolean jumping;
 
-    public Player(int x, int y){
-        this.position = new Point(x,y);
+    public Player(float x, float y){
+        this.position = new Point2D.Float(x,y);
         this.jumping = false;
     }
 
