@@ -3,11 +3,13 @@ package com.scriptbakers.floorislava.gameentities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.scriptbakers.floorislava.Constants.Side;
 
 import static com.scriptbakers.floorislava.Constants.*;
+import static com.scriptbakers.floorislava.Constants.Entity.OBSTACLE;
 
 
 /**
@@ -34,6 +36,13 @@ public class Obstacle {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
         body = world.createBody(bodyDef);
-        body.createFixture(shape, 1);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.filter.categoryBits = CATEGORY_OBSTACLE;
+        fixtureDef.filter.maskBits = MASK_OBSTACLE;
+        fixtureDef.density = 1;
+
+        body.createFixture(fixtureDef);
     }
 }
