@@ -7,13 +7,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.FloorIsLava;
-
 import java.awt.geom.Point2D;
 
-import static com.scriptbakers.floorislava.FloorIsLava.INITIAL_GRAVITY;
-import static com.scriptbakers.floorislava.FloorIsLava.WORLD_HEIGHT;
-import static com.scriptbakers.floorislava.FloorIsLava.WORLD_WIDTH;
 
 
 /**
@@ -27,22 +24,27 @@ public class Player {
     Vector2 position;
     int score;
     boolean jumping;
-    Body body;
+    public final Body body;
+    int jumpTime;
 
 
-    public Player(World world, int x, int y){
+    public Player(World world, float x, float y, float width, float height){
         this.position = new Vector2(x,y);
         this.jumping = false;
 
+        /* Creates the player in the world. */
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(WORLD_WIDTH/2, WORLD_HEIGHT/5);
+        bodyDef.position.set(x, y);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bodyDef);
 
-        CircleShape player = new CircleShape();
-        player.setRadius(WORLD_WIDTH/10);
+        PolygonShape player = new PolygonShape();
+        player.setAsBox(width, height);
         body.createFixture(player, 1);
         body.setGravityScale(0);
+
+        this.jumpTime = 0;
+
         player.dispose();
     }
 
@@ -52,6 +54,13 @@ public class Player {
         System.out.println("Player y: " + body.getWorldCenter().y);
         position.set(body.getWorldCenter());
 
+        if(jumpTime > 0)
+            jumpTime--;
+
+        else if(jumping) {
+            jumping = false;
+            body.setLinearVelocity(0f,0f);
+        }
     }
 
     public void jump(Vector2 jumpVector){
@@ -59,6 +68,10 @@ public class Player {
         jumping = true;
         //body.applyLinearImpulse(jumpVector.scl(50), body.getWorldCenter(),true);
         body.applyForceToCenter(jumpVector.scl(50),true);
+        jumpTime = Math.round(jumpVector.len()/ Constants.MAX_JUMPVEC_LEN);
+    }
 
+    public Vector2 getPosition() {
+        return position;
     }
 }

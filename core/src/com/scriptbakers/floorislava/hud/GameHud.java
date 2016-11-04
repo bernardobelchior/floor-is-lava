@@ -13,6 +13,8 @@ import com.scriptbakers.floorislava.FloorIsLava;
 import com.scriptbakers.floorislava.logic.gameentities.Game;
 import com.scriptbakers.floorislava.screens.GameScreen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.scriptbakers.floorislava.logic.gameentities.Game;
+import com.scriptbakers.floorislava.Constants;
 
 import java.awt.geom.Point2D;
 
@@ -32,9 +34,10 @@ public class GameHud {
     InputListener inputListener;
     Game game;
 
+
     public GameHud(final Game game, SpriteBatch batch){
         this.batch = batch;
-        this.vport = new FitViewport(FloorIsLava.WORLD_WIDTH, FloorIsLava.WORLD_HEIGHT, new OrthographicCamera());
+        this.vport = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, new OrthographicCamera());
         this.table = new Table();
         this.game = game;
         this.stage = new Stage(this.vport, this.batch);
@@ -73,7 +76,7 @@ public class GameHud {
     }
 
     public void endJumpVector(){
-        game.getPlayer().jump(jumpVector);
+        game.player.jump(new Vector2(-jumpVector.x,-jumpVector.y));
     }
 
     public void createJumpVector(float x, float y){

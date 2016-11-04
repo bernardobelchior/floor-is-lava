@@ -8,22 +8,18 @@ import com.badlogic.gdx.math.Vector2;
 import com.scriptbakers.floorislava.logic.gameentities.Game;
 import com.scriptbakers.floorislava.screens.GameScreen;
 
-
 public class FloorIsLava extends ApplicationAdapter {
-	public static int WORLD_WIDTH = 1000;
-	public static int WORLD_HEIGHT = 2000;
-	public static Vector2 INITIAL_GRAVITY = new Vector2(0, -50);
-	public SpriteBatch batch;
 
 	GameScreen screen;
 	Game game;
+    public SpriteBatch batch;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		game = new Game();
-		screen = new GameScreen(game, batch);
-	}
+		screen = new GameScreen(game,batch);
+		}
 
 	@Override
 	public void render () {
