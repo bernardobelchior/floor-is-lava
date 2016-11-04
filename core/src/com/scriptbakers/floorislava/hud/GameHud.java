@@ -80,22 +80,24 @@ public class GameHud {
     }
 
     public void createJumpVector(float x, float y){
-        this.jumpOrigin = new Vector2(x,y);
-        this.jumpVector = new Vector2(0,0);
+        jumpOrigin = new Vector2(x,y);
+        jumpVector = new Vector2(0,0);
 
         //FIXME debug
         System.out.println("new vector2: " + x + y);
     }
 
     public void updateJumpVector(float x, float y){
-        this.jumpVector.set(x - jumpOrigin.x, y - jumpOrigin.y);
+        if(jumpVector.len() <= Constants.MAX_JUMPVEC_LEN)
+            this.jumpVector.set(x - jumpOrigin.x, y - jumpOrigin.y);
+
         System.out.println("dragging: " + jumpVector.x + jumpVector.y);
     }
 
     public void deleteJumpVector(){
-        if(this.jumpVector != null) {
-            this.jumpVector = null;
-            this.jumpOrigin = null;
+        if(jumpVector != null) {
+            jumpVector = null;
+            jumpOrigin = null;
         }
     }
 

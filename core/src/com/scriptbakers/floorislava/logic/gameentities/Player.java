@@ -68,7 +68,8 @@ public class Player {
         jumping = true;
         //body.applyLinearImpulse(jumpVector.scl(50), body.getWorldCenter(),true);
         body.applyForceToCenter(jumpVector.scl(50),true);
-        jumpTime = Math.round(jumpVector.len()/ Constants.MAX_JUMPVEC_LEN);
+        jumpTime = Math.round(jumpVector.len()/ Constants.MAX_JUMPVEC_LEN)*60;
+        System.out.println(jumpTime);
     }
 
     public Vector2 getPosition() {

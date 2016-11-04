@@ -25,5 +25,5 @@ public class Constants {
     public static final float OBSTACLE_RADIUS = PLAYER_WIDTH;
     public static final float OBSTACLE_GENENATION_PER_SECOND = 0.5f;
 
-    public static final int MAX_JUMPVEC_LEN = 150;
+    public static final int MAX_JUMPVEC_LEN = 10;
 }
