@@ -3,28 +3,30 @@ package com.scriptbakers.floorislava.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.scriptbakers.floorislava.FloorIsLava;
+import com.scriptbakers.floorislava.logic.Game;
 
 /**
  * Created by inesc on 04/11/2016.
  */
 
 public class GameOverScreen implements Screen{
-
-    private FloorIsLava game;
     private ImageButton replayButton;
     private Skin skin;
     private TextureAtlas buttonsAtlas;
     private Stage stage;
+    private SpriteBatch batch;
+    private Game game;
 
-    public GameOverScreen(FloorIsLava floorIsLava){
-        game = floorIsLava;
+    public GameOverScreen(Game game, SpriteBatch batch){
+        this.game = game;
+        this.batch = batch;
 
         //backgroud image
         skin = new Skin();
@@ -33,7 +35,6 @@ public class GameOverScreen implements Screen{
 
     @Override
     public void show() {
-
         buttonsAtlas = new TextureAtlas("buttons.pack");
         skin = new Skin();
         skin.addRegions(buttonsAtlas);
@@ -47,7 +48,7 @@ public class GameOverScreen implements Screen{
         stage.addActor(replayButton);
         replayButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
-               // game.setScreen(new gameScreen(game));
+               game.run();
             }
         });
 
@@ -57,10 +58,6 @@ public class GameOverScreen implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        game.batch.begin();
-        //game.batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        game.batch.end();
 
         stage.act(delta);
         stage.draw();
@@ -83,7 +80,6 @@ public class GameOverScreen implements Screen{
 
     @Override
     public void hide() {
-        game.batch.dispose();
         stage.dispose();
     }
 
