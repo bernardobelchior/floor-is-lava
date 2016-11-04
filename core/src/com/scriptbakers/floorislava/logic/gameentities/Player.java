@@ -50,12 +50,11 @@ public class Player {
 
     public void update(float dt){
         //FIXME debug prints
-        System.out.println("Player x: " + body.getWorldCenter().x);
-        System.out.println("Player y: " + body.getWorldCenter().y);
         position.set(body.getWorldCenter());
 
-        if(jumpTime > 0)
+        if(jumpTime > 0){
             jumpTime--;
+            System.out.println("jumptime: " + jumpTime);}
 
         else if(jumping) {
             jumping = false;
@@ -66,9 +65,9 @@ public class Player {
     public void jump(Vector2 jumpVector){
 
         jumping = true;
-        //body.applyLinearImpulse(jumpVector.scl(50), body.getWorldCenter(),true);
-        body.applyForceToCenter(jumpVector.scl(50),true);
-        jumpTime = Math.round(jumpVector.len()/ Constants.MAX_JUMPVEC_LEN)*60;
+        body.applyForceToCenter(jumpVector.cpy().scl(50),true);
+        System.out.println(jumpVector.len());
+        jumpTime = Math.round(90*jumpVector.len()/ Constants.MAX_JUMPVEC_LEN);
         System.out.println(jumpTime);
     }
 

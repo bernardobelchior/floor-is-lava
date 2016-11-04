@@ -1,12 +1,15 @@
 package com.scriptbakers.floorislava.hud;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.scriptbakers.floorislava.FloorIsLava;
@@ -33,6 +36,7 @@ public class GameHud {
     //TODO display score
     InputListener inputListener;
     Game game;
+    TextureRegionDrawable arrow; //TODO remove
 
 
     public GameHud(final Game game, SpriteBatch batch){
@@ -43,10 +47,10 @@ public class GameHud {
         this.stage = new Stage(this.vport, this.batch);
         this.stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
+        this.arrow = new TextureRegionDrawable(new TextureRegion(new Texture("tmparrow.jpg")));
         this.inputListener = new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("touchDown"); //FIXME debug only
                 //TODO insert arrow
                 //TODO check if not pressing any button
                 createJumpVector(x,y);
@@ -56,7 +60,6 @@ public class GameHud {
 
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                System.out.println("dragging..."); //FIXME debug only
                 //TODO scale arrow
                 updateJumpVector(x,y);
 
@@ -64,7 +67,6 @@ public class GameHud {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("touchUp"); //FIXME debug only
                 //TODO remove arrow
                 endJumpVector();
                 deleteJumpVector();
@@ -82,16 +84,21 @@ public class GameHud {
     public void createJumpVector(float x, float y){
         jumpOrigin = new Vector2(x,y);
         jumpVector = new Vector2(0,0);
-
-        //FIXME debug
-        System.out.println("new vector2: " + x + y);
     }
 
     public void updateJumpVector(float x, float y){
-        if(jumpVector.len() <= Constants.MAX_JUMPVEC_LEN)
-            this.jumpVector.set(x - jumpOrigin.x, y - jumpOrigin.y);
+        Vector2 tempVec = new Vector2(x - jumpOrigin.x, y - jumpOrigin.y);
+        if (tempVec.len() <= Constants.MAX_JUMPVEC_LEN) {
+            this.jumpVector.set(tempVec);
+            System.out.println("UPDATING VECTOR!!!\n" + tempVec.len());
+        }
 
-        System.out.println("dragging: " + jumpVector.x + jumpVector.y);
+        else {
+            System.out.println("ASDFAF");
+            this.jumpVector.setAngle(tempVec.angle());
+            this.jumpVector.setLength(Constants.MAX_JUMPVEC_LEN);
+        }
+
     }
 
     public void deleteJumpVector(){
