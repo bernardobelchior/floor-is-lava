@@ -2,15 +2,15 @@ package com.scriptbakers.floorislava.screens;
 
 import static com.scriptbakers.floorislava.FloorIsLava.*;
 
-
 import com.badlogic.gdx.Screen;
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
-
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.scriptbakers.floorislava.logic.Game;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.scriptbakers.floorislava.gameentities.Player;
+import com.scriptbakers.floorislava.hud.GameHud;
 
 
 /**
@@ -18,14 +18,18 @@ import com.scriptbakers.floorislava.logic.Game;
  */
 
 public class GameScreen implements Screen {
+    SpriteBatch batch;
     World world;
     Box2DDebugRenderer debugRenderer;
     OrthographicCamera camera;
     FitViewport viewport;
-
+    public GameHud hud;
+    public Player player;
 
     public GameScreen(Game game) {
         this.world = game.getWorld();
+        this.player = new Player(0,0); //FIXME fix x and y;
+        this.hud = new GameHud(this, batch);
 
         debugRenderer = new Box2DDebugRenderer();
 

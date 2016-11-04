@@ -12,7 +12,7 @@ public class FloorIsLava extends ApplicationAdapter {
 	public static int WORLD_WIDTH = 1000;
 	public static int WORLD_HEIGHT = 2000;
 	public static Vector2 INITIAL_GRAVITY = new Vector2(0, -50);
-	
+
 	GameScreen screen;
 	Game game;
 
