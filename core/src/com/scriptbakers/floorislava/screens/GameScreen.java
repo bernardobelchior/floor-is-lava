@@ -46,6 +46,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         camera.update();
+        game.update(delta);
 
         debugRenderer.render(game.getWorld(), camera.combined);
     }

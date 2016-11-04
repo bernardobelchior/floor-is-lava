@@ -1,13 +1,17 @@
 package com.scriptbakers.floorislava.logic.gameentities;
 
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.scriptbakers.floorislava.FloorIsLava;
 
 import java.awt.geom.Point2D;
 
+import static com.scriptbakers.floorislava.FloorIsLava.INITIAL_GRAVITY;
 import static com.scriptbakers.floorislava.FloorIsLava.WORLD_HEIGHT;
 import static com.scriptbakers.floorislava.FloorIsLava.WORLD_WIDTH;
 
@@ -32,17 +36,28 @@ public class Player {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(WORLD_WIDTH/2, WORLD_HEIGHT/5);
-        bodyDef.type = BodyDef.BodyType.KinematicBody;
-        Body body = world.createBody(bodyDef);
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        body = world.createBody(bodyDef);
 
-        PolygonShape player = new PolygonShape();
+        CircleShape player = new CircleShape();
         player.setRadius(WORLD_WIDTH/10);
         body.createFixture(player, 1);
-
+        body.setGravityScale(0);
         player.dispose();
     }
 
+    public void update(float dt){
+        //FIXME debug prints
+        System.out.println("Player x: " + body.getWorldCenter().x);
+        System.out.println("Player y: " + body.getWorldCenter().y);
+        position.set(body.getWorldCenter());
+
+    }
+
     public void jump(Vector2 jumpVector){
-        this.jumping = true;
+
+        jumping = true;
+        body.applyLinearImpulse(jumpVector, body.getWorldCenter(),true);
+
     }
 }

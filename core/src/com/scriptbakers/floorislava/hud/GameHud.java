@@ -30,11 +30,13 @@ public class GameHud {
     SpriteBatch batch;
     //TODO display score
     InputListener inputListener;
+    Game game;
 
     public GameHud(final Game game, SpriteBatch batch){
         this.batch = batch;
         this.vport = new FitViewport(FloorIsLava.WORLD_WIDTH, FloorIsLava.WORLD_HEIGHT, new OrthographicCamera());
         this.table = new Table();
+        this.game = game;
         this.stage = new Stage(this.vport, this.batch);
         this.stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
@@ -61,13 +63,17 @@ public class GameHud {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("touchUp"); //FIXME debug only
                 //TODO remove arrow
-                game.getPlayer().jump(getJumpVector());
-                deleteJumpVector();
+                endJumpVector();
+                //deleteJumpVector();
             }
         };
 
         this.stage.addListener(inputListener);
 
+    }
+
+    public void endJumpVector(){
+        game.getPlayer().jump(jumpVector);
     }
 
     public void createJumpVector(float x, float y){

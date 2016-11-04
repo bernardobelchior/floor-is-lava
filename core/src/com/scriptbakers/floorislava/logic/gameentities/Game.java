@@ -33,5 +33,6 @@ public class Game {
 
     public void update(float delta) {
         world.step(1/delta, 6, 2);
+        player.update(delta);
     }
 }
