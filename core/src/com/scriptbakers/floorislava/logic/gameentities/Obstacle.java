@@ -1,13 +1,12 @@
-package com.scriptbakers.floorislava.gameentities;
+package com.scriptbakers.floorislava.logic.gameentities;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.scriptbakers.floorislava.Constants.Side;
 
-import static com.scriptbakers.floorislava.Constants.*;
+import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
 
 
 /**
@@ -36,4 +35,5 @@ public class Obstacle {
         body = world.createBody(bodyDef);
         body.createFixture(shape, 1);
     }
+
 }

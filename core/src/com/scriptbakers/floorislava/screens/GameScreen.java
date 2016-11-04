@@ -4,9 +4,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.logic.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.hud.GameHud;
 
 import static com.scriptbakers.floorislava.Constants.GameState.RUNNING;
@@ -28,7 +28,6 @@ public class GameScreen implements Screen {
     public GameScreen(Game game, SpriteBatch batch) {
         this.game = game;
         this.batch = batch;
-
         this.hud = new GameHud(game, batch);
 
         debugRenderer = new Box2DDebugRenderer();
@@ -52,6 +51,7 @@ public class GameScreen implements Screen {
         renderedOnce = true;
 
         camera.update();
+        game.update(delta);
 
         batch.begin();
         //batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

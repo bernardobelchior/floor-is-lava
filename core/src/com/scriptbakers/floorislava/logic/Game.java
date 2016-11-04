@@ -1,8 +1,9 @@
 package com.scriptbakers.floorislava.logic;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.scriptbakers.floorislava.logic.ObstacleGenerator;
+import com.scriptbakers.floorislava.logic.gameentities.Player;
 import com.scriptbakers.floorislava.Constants;
-import com.scriptbakers.floorislava.gameentities.Player;
 
 import static com.scriptbakers.floorislava.Constants.*;
 import static com.scriptbakers.floorislava.Constants.GameState.OVER;
@@ -34,6 +35,7 @@ public class Game {
             return;
 
         world.step(1/delta, 6, 2);
+        player.update(delta);
         noUpdates++;
 
         if(noUpdates % (60/ OBSTACLE_GENENATION_PER_SECOND) == 0)
