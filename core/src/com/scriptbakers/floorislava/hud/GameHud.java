@@ -1,47 +1,80 @@
 package com.scriptbakers.floorislava.hud;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.scriptbakers.floorislava.FloorIsLava;
+
+import java.awt.geom.Point2D;
 
 /**
  * Created by epassos on 11/4/16.
  */
 
 public class GameHud {
+
+    FloorIsLava game; //FIXME remove;
     Stage stage;
     Table table;
     Viewport vport;
+    Point2D.Float jumpOrigin;
+    Vector2 jumpVector;
     //TODO display score
     InputListener inputListener;
 
-    public GameHud(){
+    public GameHud(FloorIsLava game){
+        this.game = game;
         this.stage = new Stage(); //TODO add viewport and batch
         this.inputListener = new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("touchDown"); //FIXME debug only
-                //TODO insert arrow and start registering movement vector
+                //TODO insert arrow
+                game.hud.createJumpVector(x,y);
+            }
+
+            @Override
+            public void touchDragged(InputEvent event, float x, float y, int pointer) {
+                System.out.println("dragging..."); //FIXME debug only
+                //TODO scale arrow
+                game.hud.updateJumpVector(x,y);
+
 
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("touchUp"); //FIXME debug only
-                //TODO remove arrow, register movement vector and jump!
+                //TODO remove arrow
+                game.player.jump(game.hud.getJumpVector());
+                game.hud.deleteJumpVector();
             }
-
-            @Override
-            public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                System.out.println("dragging..."); //FIXME debug only
-                //TODO scale arrow and update movement vector
-
-                
-            }
-        }
+        };
 
     }
+
+    public void createJumpVector(float x, float y){
+        this.jumpOrigin = new Point2D.Float(x,y);
+        this.jumpVector = new Vector2(0,0);
+
+        //FIXME debug
+        System.out.println("new vector2: " + x + y);
+    }
+
+    public void updateJumpVector(float x, float y){
+        this.jumpVector.set(x - jumpOrigin.x, y - jumpOrigin.y);
+        System.out.println("dragging: " + jumpVector.x + jumpVector.y);
+    }
+
+    public void deleteJumpVector(){
+        if(this.jumpVector != null) {
+            this.jumpVector = null;
+            this.jumpOrigin = null;
+        }
+    }
+
 
 }

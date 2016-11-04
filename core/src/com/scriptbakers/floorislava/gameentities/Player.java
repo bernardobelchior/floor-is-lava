@@ -1,5 +1,7 @@
 package com.scriptbakers.floorislava.gameentities;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.awt.Point;
 
 
@@ -19,7 +21,7 @@ public class Player {
         this.jumping = false;
     }
 
-    public void jump(){
+    public void jump(Vector2 jumpVector){
         this.jumping = true;
     }
 }
