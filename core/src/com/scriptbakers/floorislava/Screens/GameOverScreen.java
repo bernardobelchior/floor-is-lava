@@ -47,7 +47,7 @@ public class GameOverScreen implements Screen{
         stage.addActor(replayButton);
         replayButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PlayScreen(game));
+               // game.setScreen(new PlayScreen(game));
             }
         });
 
