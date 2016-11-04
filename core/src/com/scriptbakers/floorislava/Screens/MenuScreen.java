@@ -1,7 +1,8 @@
-package com.scriptbakers.floorislava.Screens;
+package com.scriptbakers.floorislava.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -23,11 +24,6 @@ public class MenuScreen implements Screen{
     private TextureAtlas buttonsAtlas;
     private Stage stage;
 
-
-
-   /* public static MenuScreen getInstance() {
-        return ourInstance;
-    }*/
 
     public MenuScreen(FloorIsLava floorIsLava) {
         game = floorIsLava;
@@ -52,7 +48,7 @@ public class MenuScreen implements Screen{
         stage.addActor(playButton);
         playButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
-               // game.setScreen(new PlayScreen(game));
+               game.setScreen(new PlayScreen(game));
             }
         });
 
@@ -70,23 +66,21 @@ public class MenuScreen implements Screen{
     }
 
     public void render(float delta) {
-        /*Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        //game.batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game.batch.end();
 
         stage.act(delta);
-        stage.draw();*/
+        stage.draw();
     }
 
     public void hide() {
-        //game.batch.dispose();
-       /* stage.dispose();
-        if(game.soundEnabled()){
-            music.dispose();
-        }*/
+        game.batch.dispose();
+        stage.dispose();
+
     }
 
     public void dispose() {
