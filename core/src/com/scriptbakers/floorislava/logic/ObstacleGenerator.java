@@ -44,5 +44,6 @@ public class ObstacleGenerator {
         }
 
         new Obstacle(world, shape, y, side);
+        shape.dispose();
     }
 }
