@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.scriptbakers.floorislava.logic.Game;
 import com.scriptbakers.floorislava.screens.GameScreen;
 
-
 public class FloorIsLava extends ApplicationAdapter {
-
 	GameScreen screen;
 	Game game;
 
@@ -16,7 +14,7 @@ public class FloorIsLava extends ApplicationAdapter {
 	public void create () {
 		game = new Game();
 		screen = new GameScreen(game);
-	}
+		}
 
 	@Override
 	public void render () {
