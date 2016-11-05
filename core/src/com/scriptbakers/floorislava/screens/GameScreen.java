@@ -24,9 +24,11 @@ import com.scriptbakers.floorislava.logic.gameentities.Obstacle;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static com.scriptbakers.floorislava.Constants.LEFT_LAVA_THRESHOLD;
 import static com.scriptbakers.floorislava.Constants.PIXELS_PER_METER;
 import static com.scriptbakers.floorislava.Constants.PLAYER_HEIGHT;
 import static com.scriptbakers.floorislava.Constants.PLAYER_WIDTH;
+import static com.scriptbakers.floorislava.Constants.RIGHT_LAVA_THRESHOLD;
 import static com.scriptbakers.floorislava.Constants.WORLD_HEIGHT;
 import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
 
@@ -91,11 +93,15 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
-        for(int i = 0; i < WORLD_WIDTH; i+=WORLD_WIDTH/2) {
+        for(int i = 0; i < WORLD_WIDTH; i+=WORLD_WIDTH) {
             for(int j = 0; j < WORLD_HEIGHT; j+=WORLD_HEIGHT/4) {
-                batch.draw(floorTexture, 0, 0, i, j, i+WORLD_WIDTH/2, j+WORLD_HEIGHT/4);
+                batch.draw(floorTexture, LEFT_LAVA_THRESHOLD, 0, i, j, i+WORLD_WIDTH, j+WORLD_HEIGHT/4);
             }
         }
+
+        TextureRegion frame = lavaAnimation.getKeyFrame(timeElapsed);
+        batch.draw(frame, 0, 0, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT);
+        batch.draw(frame, RIGHT_LAVA_THRESHOLD, 0, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT);
 
 
         for (Obstacle obstacle : game.getObstacles()) {
@@ -108,7 +114,7 @@ public class GameScreen implements Screen {
             lava.draw(batch, timeElapsed);
         }
 
-        TextureRegion frame = runningAnimation.getKeyFrame(timeElapsed,true);
+        frame = runningAnimation.getKeyFrame(timeElapsed,true);
         if(game.player.isJumping())
             frame = jumpingAnimation.getKeyFrames()[2];
 
