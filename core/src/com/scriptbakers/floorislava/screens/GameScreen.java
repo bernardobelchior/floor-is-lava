@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -38,7 +37,6 @@ import static com.scriptbakers.floorislava.Graphics.runningAnimation;
 public class GameScreen implements Screen {
     SpriteBatch batch;
     Game game;
-    Box2DDebugRenderer debugRenderer;
     OrthographicCamera camera;
     Viewport viewport;
     GameHud hud;
@@ -49,7 +47,6 @@ public class GameScreen implements Screen {
         this.game = game;
         this.batch = batch;
 
-        debugRenderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
         viewport = new ExtendViewport(WORLD_WIDTH, 0, camera);
         hud = new GameHud(game, batch, viewport);
@@ -106,7 +103,6 @@ public class GameScreen implements Screen {
 
         hud.draw();
 
-        debugRenderer.render(game.world, camera.combined);
     }
 
     @Override
