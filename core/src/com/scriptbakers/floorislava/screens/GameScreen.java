@@ -63,7 +63,9 @@ public class GameScreen implements Screen {
 
         batch.begin();
         //batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        hud.draw();
         batch.end();
+        batch.setProjectionMatrix(hud.getStage().getCamera().combined);
 
         debugRenderer.render(game.world, camera.combined);
     }
