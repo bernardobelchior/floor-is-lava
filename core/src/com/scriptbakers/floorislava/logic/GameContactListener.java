@@ -27,8 +27,7 @@ public class GameContactListener implements ContactListener {
                     player.onObstacle = true;
                     break;
                 case CATEGORY_LAVA:
-                    if(!player.isJumping())
-                        player.setAlive(false);
+                    player.onLava = true;
                     break;
             }
         }
@@ -40,8 +39,7 @@ public class GameContactListener implements ContactListener {
                     player.onObstacle = true;
                     break;
                 case CATEGORY_LAVA:
-                    if(!player.isJumping())
-                        player.setAlive(false);
+                    player.onLava = true;
                     break;
             }
         }
@@ -58,6 +56,9 @@ public class GameContactListener implements ContactListener {
                 case CATEGORY_FURNITURE:
                     player.onObstacle = false;
                     break;
+                case CATEGORY_LAVA:
+                    player.onLava = false;
+                    break;
             }
         }
 
@@ -66,6 +67,9 @@ public class GameContactListener implements ContactListener {
             switch (fixtureACategory) {
                 case CATEGORY_FURNITURE:
                     player.onObstacle = false;
+                    break;
+                case CATEGORY_LAVA:
+                    player.onLava = false;
                     break;
             }
         }

@@ -37,7 +37,7 @@ public class Lava {
 
     private void createBody(World world) {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(WORLD_WIDTH/2, WORLD_HEIGHT);
+        bodyDef.position.set(WORLD_WIDTH/2, 1.5f*WORLD_HEIGHT);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bodyDef);
 

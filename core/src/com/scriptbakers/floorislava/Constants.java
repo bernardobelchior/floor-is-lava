@@ -35,18 +35,17 @@ public class Constants {
     public static final float PLAYER_WIDTH = WORLD_WIDTH/16;
     public static final float PLAYER_HEIGHT = WORLD_HEIGHT/32;
 
-    public static final float SCROLL_VELOCITY = -WORLD_HEIGHT/16;
+    public static final float SCROLL_VELOCITY = -WORLD_HEIGHT/5;
 
-    public static final float LEFT_LAVA_THRESHOLD = WORLD_WIDTH/5;
+    public static final float LEFT_LAVA_THRESHOLD = WORLD_WIDTH/4;
     public static final float RIGHT_LAVA_THRESHOLD = WORLD_WIDTH - LEFT_LAVA_THRESHOLD;
 
     public static final float OBSTACLE_RADIUS = 1.5f*PLAYER_WIDTH;
 
-    public static final float LAVA_PATCH_MAX_LENGTH = WORLD_HEIGHT/8;
+    public static final float LAVA_PATCH_MAX_LENGTH = WORLD_HEIGHT/3;
 
-    public static final float FURNITURE_SPAWNED_PER_SECOND = 0.5f;
-    public static final float LAVA_GENERATION_PER_SECOND = 0.1f;
+    public static final float LAVA_GENERATION_PER_SECOND = 0.2f;
 
     public static final int MAX_JUMP_VECTOR_LENGTH = 200;
-    public static final int JUMP_TIME_MULTIPLIER = 135;
+    public static final int JUMP_TIME_MULTIPLIER = 90;
 }

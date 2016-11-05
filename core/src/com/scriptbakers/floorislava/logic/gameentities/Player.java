@@ -31,6 +31,7 @@ import static com.scriptbakers.floorislava.Constants.SCROLL_VELOCITY;
 public class Player {
     int score;
     public boolean onObstacle;
+    public boolean onLava;
     public final Body body;
     int jumpTime;
     boolean alive;
@@ -38,6 +39,7 @@ public class Player {
 
     public Player(World world, float x, float y, float width, float height) {
         onObstacle = false;
+        onLava = false;
         alive = true;
 
         /* Creates the player in the world. */
@@ -74,6 +76,9 @@ public class Player {
         if((body.getPosition().x + PLAYER_WIDTH/2 > RIGHT_LAVA_THRESHOLD) && !onObstacle  && jumpTime == 0)
             alive = false;
 
+        if(!isJumping() && onLava)
+            alive = false;
+
         if (jumpTime > 0)
             jumpTime--;
         else {
@@ -96,10 +101,6 @@ public class Player {
 
     public boolean isAlive() {
         return alive;
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
     }
 
     public boolean isJumping() {

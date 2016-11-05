@@ -106,16 +106,13 @@ public class Game {
                 lavaPatches.remove(i);
         }
 
-    if(noUpdates % (60/ FURNITURE_SPAWNED_PER_SECOND) == 0)
-        furnitures.add(furnitureSpawner.generateObstacle(Math.round(player.getPosition().y)));
+        if(noUpdates % (60/LAVA_GENERATION_PER_SECOND) == 0) {
+            lavaPatches.add(new Lava(world, (float) Math.random() * LAVA_PATCH_MAX_LENGTH));
 
-
-        if(noUpdates % (60/LAVA_GENERATION_PER_SECOND) == 0)
-            lavaPatches.add(new Lava(world, (float) Math.random()* LAVA_PATCH_MAX_LENGTH));
-
-
-
-
+            for(int i = 0; i < Math.random()*3+1; i++) {
+                furnitures.add(furnitureSpawner.generateObstacle(lavaPatches.get(lavaPatches.size()-1).getPosition().y));
+            }
+        }
     }
 
     public void run() {
