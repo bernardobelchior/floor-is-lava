@@ -54,10 +54,14 @@ public class MenuScreen implements Screen{
         camera.position.set(Constants.WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
         stage = new Stage(viewport, batch);
         renderedOnce = false;
-
+       
         Gdx.input.setInputProcessor(stage);
     }
 
+
+    public void show(){
+
+    }
 
     public void resize(int width, int height) {
         camera = new OrthographicCamera(width, height);
@@ -67,9 +71,7 @@ public class MenuScreen implements Screen{
 
     }
 
-    public void show(){
-
-    }
+    
 
     public void resume() {
 
