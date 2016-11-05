@@ -57,6 +57,7 @@ public class GameScreen implements Screen {
         camera.position.set(WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
 
         floorTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        this.game.run();
     }
 
     @Override

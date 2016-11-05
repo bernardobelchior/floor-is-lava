@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.FloorIsLava;
+import com.scriptbakers.floorislava.State;
 import com.scriptbakers.floorislava.hud.GameHud;
 import com.scriptbakers.floorislava.logic.Game;
 
@@ -91,7 +92,7 @@ public class MenuScreen implements Screen{
         stage.act(delta);
         if(Gdx.input.isTouched()){
             batch.end();
-            game.gsm.pop();
+            game.gsm.set(new State(new GameScreen(new Game(game.gsm),batch),game.gsm));
         }
         batch.end();
 
