@@ -9,7 +9,14 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.scriptbakers.floorislava.Constants;
 
 import static com.scriptbakers.floorislava.Constants.CATEGORY_PLAYER;
+import static com.scriptbakers.floorislava.Constants.GameState.OVER;
+import static com.scriptbakers.floorislava.Constants.LEFT_LAVA_THRESHOLD;
 import static com.scriptbakers.floorislava.Constants.MASK_PLAYER;
+import static com.scriptbakers.floorislava.Constants.PLAYER_HEIGHT;
+import static com.scriptbakers.floorislava.Constants.PLAYER_INITIAL_Y;
+import static com.scriptbakers.floorislava.Constants.PLAYER_WIDTH;
+import static com.scriptbakers.floorislava.Constants.RIGHT_LAVA_THRESHOLD;
+import static com.scriptbakers.floorislava.Constants.SCROLL_VELOCITY;
 
 
 /**
@@ -19,16 +26,16 @@ import static com.scriptbakers.floorislava.Constants.MASK_PLAYER;
 
 
 public class Player {
-    Vector2 position;
     int score;
-    boolean jumping;
+    public boolean onObstacle;
     public final Body body;
     int jumpTime;
+    boolean alive;
 
 
-    public Player(World world, float x, float y, float width, float height){
-        this.position = new Vector2(x,y);
-        this.jumping = false;
+    public Player(World world, float x, float y, float width, float height) {
+        onObstacle = false;
+        alive = true;
 
         /* Creates the player in the world. */
         BodyDef bodyDef = new BodyDef();
@@ -41,44 +48,51 @@ public class Player {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = player;
+        fixtureDef.restitution = 1;
         fixtureDef.filter.categoryBits = CATEGORY_PLAYER;
-        fixtureDef.filter.categoryBits = MASK_PLAYER;
+        fixtureDef.filter.maskBits = MASK_PLAYER;
         fixtureDef.density = 1;
 
         body.createFixture(fixtureDef);
         body.setGravityScale(0);
         body.setUserData(this);
-        body.setGravityScale(0);
 
         jumpTime = 0;
 
         player.dispose();
     }
 
-    public void update(float dt){
-        //FIXME debug prints
-        position.set(body.getWorldCenter());
+    public void update(float dt) {
+        if(body.getPosition().y - PLAYER_HEIGHT/2 <= 0)
+            alive = false;
 
-        if(jumpTime > 0){
+        if((body.getPosition().x - PLAYER_WIDTH/2 < LEFT_LAVA_THRESHOLD) && !onObstacle && jumpTime == 0)
+            alive = false;
+
+        if((body.getPosition().x + PLAYER_WIDTH/2 > RIGHT_LAVA_THRESHOLD) && !onObstacle  && jumpTime == 0)
+            alive = false;
+
+        if (jumpTime > 0)
             jumpTime--;
-            System.out.println("jumptime: " + jumpTime);}
-
-        else if(jumping) {
-            jumping = false;
-            body.setLinearVelocity(0f,0f);
+        else {
+            if(onObstacle || body.getWorldCenter().y > PLAYER_INITIAL_Y) {
+                body.setLinearVelocity(0f, SCROLL_VELOCITY);
+            } else {
+                body.setLinearVelocity(0f, 0f);
+            }
         }
     }
 
     public void jump(Vector2 jumpVector){
-        jumping = true;
         body.setLinearVelocity(jumpVector.cpy().scl(50));
-        System.out.println(jumpVector.len());
         jumpTime = Math.round(90*jumpVector.len()/ Constants.MAX_JUMPVEC_LEN);
-        System.out.println(jumpTime);
-
     }
 
     public Vector2 getPosition() {
-        return position;
+        return body.getPosition();
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 }

@@ -104,7 +104,6 @@ public class GameHud {
             jumpVector.setAngle(tempVec.angle());
             jumpVector.setLength(Constants.MAX_JUMPVEC_LEN);
         }
-
     }
 
     public void deleteJumpVector(){
