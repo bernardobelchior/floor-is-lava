@@ -1,23 +1,18 @@
-package com.scriptbakers.floorislava.logic.gameentities;
+package com.scriptbakers.floorislava.logic.gameentities.furniture;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.scriptbakers.floorislava.Constants;
-
-import static com.scriptbakers.floorislava.Constants.OBSTACLE_RADIUS;
 
 /**
  * Created by bernardo on 05-11-2016.
  */
 
-public class CircularObstacle extends Obstacle {
+public class CircularFurniture extends Furniture {
     Vector2 dimensions;
 
-    public CircularObstacle(World world, float x, float y, float radius) {
+    public CircularFurniture(World world, float x, float y, float radius) {
         super(world);
 
         dimensions = new Vector2(radius, radius);

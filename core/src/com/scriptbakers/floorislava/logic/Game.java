@@ -8,11 +8,10 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.logic.gameentities.Lava;
-import com.scriptbakers.floorislava.logic.gameentities.Obstacle;
+import com.scriptbakers.floorislava.logic.gameentities.furniture.Furniture;
 import com.scriptbakers.floorislava.logic.gameentities.Player;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import static com.scriptbakers.floorislava.Constants.*;
 import static com.scriptbakers.floorislava.Constants.GameState.*;
@@ -28,15 +27,15 @@ public class Game {
 
 
     private int noUpdates;
-    private ObstacleGenerator obstacleGenerator;
+    private FurnitureSpawner furnitureSpawner;
     private GameState gameState;
-    private ArrayList<Obstacle> obstacles;
+    private ArrayList<Furniture> furnitures;
     public Game() {
         world = new World(Constants.INITIAL_GRAVITY, true);
         player = new Player(world, PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_WIDTH, PLAYER_HEIGHT);
-        obstacleGenerator = new ObstacleGenerator(world);
+        furnitureSpawner = new FurnitureSpawner(world);
         lavaPatches = new ArrayList<Lava>();
-        obstacles =  new ArrayList<Obstacle>();
+        furnitures =  new ArrayList<Furniture>();
 
         noUpdates = 0;
         gameState = PAUSED;
@@ -95,10 +94,10 @@ public class Game {
 
         noUpdates++;
 
-        for (int i = obstacles.size() - 1; i >= 0; i--) {
-            Obstacle obstacle = obstacles.get(i);
-            if(obstacle.getPosition().y - obstacle.getDimensions().y< 0)
-                obstacles.remove(i);
+        for (int i = furnitures.size() - 1; i >= 0; i--) {
+            Furniture furniture = furnitures.get(i);
+            if(furniture.getPosition().y - furniture.getDimensions().y< 0)
+                furnitures.remove(i);
         }
 
         for (int i = lavaPatches.size() - 1; i >= 0; i--) {
@@ -107,8 +106,8 @@ public class Game {
                 lavaPatches.remove(i);
         }
 
-    if(noUpdates % (60/ OBSTACLE_GENERATION_PER_SECOND) == 0)
-        obstacles.add(obstacleGenerator.generateObstacle(Math.round(player.getPosition().y)));
+    if(noUpdates % (60/ FURNITURE_SPAWNED_PER_SECOND) == 0)
+        furnitures.add(furnitureSpawner.generateObstacle(Math.round(player.getPosition().y)));
 
 
         if(noUpdates % (60/LAVA_GENERATION_PER_SECOND) == 0)
@@ -131,8 +130,8 @@ public class Game {
         return gameState;
     }
 
-    public ArrayList<Obstacle> getObstacles(){
-        return this.obstacles;
+    public ArrayList<Furniture> getFurnitures(){
+        return this.furnitures;
     }
 
     public Vector2 getPlayerPosition() {

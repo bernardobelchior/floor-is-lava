@@ -1,17 +1,14 @@
 package com.scriptbakers.floorislava.logic;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.scriptbakers.floorislava.logic.gameentities.Player;
 
 import static com.scriptbakers.floorislava.Constants.CATEGORY_LAVA;
-import static com.scriptbakers.floorislava.Constants.CATEGORY_OBSTACLE;
+import static com.scriptbakers.floorislava.Constants.CATEGORY_FURNITURE;
 import static com.scriptbakers.floorislava.Constants.CATEGORY_PLAYER;
-import static com.scriptbakers.floorislava.Constants.PLAYER_HEIGHT;
 
 /**
  * Created by bernardo on 04-11-2016.
@@ -26,7 +23,7 @@ public class GameContactListener implements ContactListener {
         if(fixtureACategory == CATEGORY_PLAYER ) {
             Player player = (Player) contact.getFixtureA().getBody().getUserData();
             switch (fixtureBCategory) {
-                case CATEGORY_OBSTACLE:
+                case CATEGORY_FURNITURE:
                     player.onObstacle = true;
                     break;
                 case CATEGORY_LAVA:
@@ -39,7 +36,7 @@ public class GameContactListener implements ContactListener {
         if(fixtureBCategory == CATEGORY_PLAYER ) {
             Player player = (Player) contact.getFixtureB().getBody().getUserData();
             switch (fixtureACategory) {
-                case CATEGORY_OBSTACLE:
+                case CATEGORY_FURNITURE:
                     player.onObstacle = true;
                     break;
                 case CATEGORY_LAVA:
@@ -58,7 +55,7 @@ public class GameContactListener implements ContactListener {
         if(fixtureACategory == CATEGORY_PLAYER ) {
             Player player = (Player) contact.getFixtureA().getBody().getUserData();
             switch (fixtureBCategory) {
-                case CATEGORY_OBSTACLE:
+                case CATEGORY_FURNITURE:
                     player.onObstacle = false;
                     break;
             }
@@ -67,7 +64,7 @@ public class GameContactListener implements ContactListener {
         if(fixtureBCategory == CATEGORY_PLAYER ) {
             Player player = (Player) contact.getFixtureB().getBody().getUserData();
             switch (fixtureACategory) {
-                case CATEGORY_OBSTACLE:
+                case CATEGORY_FURNITURE:
                     player.onObstacle = false;
                     break;
             }

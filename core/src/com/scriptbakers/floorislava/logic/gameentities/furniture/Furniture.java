@@ -1,35 +1,29 @@
-package com.scriptbakers.floorislava.logic.gameentities;
+package com.scriptbakers.floorislava.logic.gameentities.furniture;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
-import java.util.Random;
-
-import static com.scriptbakers.floorislava.Constants.CATEGORY_OBSTACLE;
-import static com.scriptbakers.floorislava.Constants.MASK_OBSTACLE;
+import static com.scriptbakers.floorislava.Constants.CATEGORY_FURNITURE;
+import static com.scriptbakers.floorislava.Constants.MASK_FURNITURE;
 import static com.scriptbakers.floorislava.Constants.SCROLL_VELOCITY;
-import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
 
 
 /**
  * Created by bernardo on 04-11-2016.
  */
 
-public abstract class Obstacle {
+public abstract class Furniture {
     Body body;
     World world;
     Texture texture;
 
-    public Obstacle(World world) {
+    public Furniture(World world) {
         this.world = world;
     }
 
@@ -44,8 +38,8 @@ public abstract class Obstacle {
         fixtureDef.density = 1;
         fixtureDef.shape = shape;
         fixtureDef.isSensor = true;
-        fixtureDef.filter.categoryBits = CATEGORY_OBSTACLE;
-        fixtureDef.filter.maskBits = MASK_OBSTACLE;
+        fixtureDef.filter.categoryBits = CATEGORY_FURNITURE;
+        fixtureDef.filter.maskBits = MASK_FURNITURE;
         body.createFixture(fixtureDef);
 
         body.setLinearVelocity(0,SCROLL_VELOCITY);

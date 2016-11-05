@@ -21,12 +21,12 @@ public class Constants {
     }
 
     public static final short CATEGORY_PLAYER = 0x0001;
-    public static final short CATEGORY_OBSTACLE = 0x0002;
+    public static final short CATEGORY_FURNITURE = 0x0002;
     public static final short CATEGORY_WALL = 0x0004;
     public static final short CATEGORY_LAVA = 0x0008;
 
-    public static final short MASK_PLAYER = CATEGORY_WALL | CATEGORY_OBSTACLE | CATEGORY_LAVA;
-    public static final short MASK_OBSTACLE = CATEGORY_PLAYER;
+    public static final short MASK_PLAYER = CATEGORY_WALL | CATEGORY_FURNITURE | CATEGORY_LAVA;
+    public static final short MASK_FURNITURE = CATEGORY_PLAYER;
     public static final short MASK_WALL = CATEGORY_PLAYER;
     public static final short MASK_LAVA = CATEGORY_PLAYER;
 
@@ -44,7 +44,7 @@ public class Constants {
 
     public static final float LAVA_PATCH_MAX_LENGTH = WORLD_HEIGHT/8;
 
-    public static final float OBSTACLE_GENERATION_PER_SECOND = 0.5f;
+    public static final float FURNITURE_SPAWNED_PER_SECOND = 0.5f;
     public static final float LAVA_GENERATION_PER_SECOND = 0.1f;
 
     public static final int MAX_JUMP_VECTOR_LENGTH = 200;
