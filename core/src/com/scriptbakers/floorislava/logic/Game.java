@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.scriptbakers.floorislava.Constants;
+import com.scriptbakers.floorislava.Main;
 import com.scriptbakers.floorislava.logic.gameentities.Lava;
 import com.scriptbakers.floorislava.logic.gameentities.furniture.Furniture;
 import com.scriptbakers.floorislava.logic.gameentities.Player;
@@ -28,7 +29,6 @@ public class Game {
 
     private int noUpdates;
     private FurnitureSpawner furnitureSpawner;
-    private GameState gameState;
     private ArrayList<Furniture> furnitures;
     public Game() {
         world = new World(Constants.INITIAL_GRAVITY, true);
@@ -38,7 +38,6 @@ public class Game {
         furnitures =  new ArrayList<Furniture>();
 
         noUpdates = 0;
-        gameState = PAUSED;
 
         world.setContactListener(new GameContactListener());
         createWalls();
@@ -83,14 +82,11 @@ public class Game {
     }
 
     public void update(float delta) {
-        if(gameState != RUNNING)
-            return;
-
         world.step(delta, 6, 2);
         player.update(delta);
 
         if(!player.isAlive())
-            gameState=OVER;
+            Main.stateManager.gameOver();
 
         noUpdates++;
 
@@ -113,18 +109,6 @@ public class Game {
                 furnitures.add(furnitureSpawner.generateObstacle(lavaPatches.get(lavaPatches.size()-1).getPosition().y));
             }
         }
-    }
-
-    public void run() {
-        gameState = RUNNING;
-    }
-
-    public void pause() {
-        gameState = PAUSED;
-    }
-
-    public GameState getGameState(){
-        return gameState;
     }
 
     public ArrayList<Furniture> getFurnitures(){

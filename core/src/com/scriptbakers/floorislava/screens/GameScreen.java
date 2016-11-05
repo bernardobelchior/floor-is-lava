@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.scriptbakers.floorislava.logic.Game;
@@ -61,7 +62,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(hud.getStage());
     }
 
     @Override
@@ -96,10 +97,10 @@ public class GameScreen implements Screen {
         if(game.player.isJumping())
             frame = jumpingAnimation.getKeyFrames()[2];
 
-        float x = game.getPlayerPosition().x-PLAYER_WIDTH/2;
-        float y = game.getPlayerPosition().y-PLAYER_HEIGHT/2;
-        float width = PLAYER_WIDTH*PIXELS_PER_METER;
-        float height = PLAYER_HEIGHT*PIXELS_PER_METER;
+        float x = game.getPlayerPosition().x-PLAYER_WIDTH;
+        float y = game.getPlayerPosition().y-PLAYER_HEIGHT;
+        float width = PLAYER_WIDTH*PIXELS_PER_METER/2;
+        float height = PLAYER_HEIGHT*PIXELS_PER_METER/2;
 
         batch.draw(frame, x, y, width, height);
         batch.end();
