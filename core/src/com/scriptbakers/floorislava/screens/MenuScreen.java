@@ -49,7 +49,6 @@ public class MenuScreen implements Screen{
         stage.addActor(playButton);
         playButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
-               ;
             }
         });
 

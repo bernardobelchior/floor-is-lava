@@ -103,7 +103,9 @@ public class GameScreen implements Screen {
             batch.draw(runningAnimation.getKeyFrame(timeElapsed,true),game.player.getPosition().x*(Gdx.graphics.getWidth()/viewport.getWorldWidth())-128/2,game.player.getPosition().y*(Gdx.graphics.getHeight()/viewport.getWorldHeight())-200);
 
         //batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        hud.draw();
         batch.end();
+        batch.setProjectionMatrix(hud.getStage().getCamera().combined);
 
         debugRenderer.render(game.world, camera.combined);
     }
