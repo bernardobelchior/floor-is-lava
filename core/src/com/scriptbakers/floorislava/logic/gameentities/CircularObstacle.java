@@ -1,5 +1,6 @@
 package com.scriptbakers.floorislava.logic.gameentities;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -16,15 +17,28 @@ import static com.scriptbakers.floorislava.Constants.OBSTACLE_RADIUS;
 public class CircularObstacle extends Obstacle {
     Vector2 dimensions;
 
-    public CircularObstacle(World world, int y, Constants.Side side) {
+    public CircularObstacle(World world, float x, float y, float radius) {
         super(world);
 
-        dimensions = new Vector2(OBSTACLE_RADIUS, OBSTACLE_RADIUS);
+        dimensions = new Vector2(radius, radius);
 
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(OBSTACLE_RADIUS);
+        circleShape.setRadius(radius);
 
-        createBody(circleShape, y, side, dimensions.x);
+        createBody(circleShape, x, y);
+    }
+
+    @Override
+    public void draw(SpriteBatch batch) {
+        if(texture == null)
+            return;
+
+        float x = getPosition().x-dimensions.x;
+        float y = getPosition().y-dimensions.y;
+        float width = dimensions.x*2;
+        float height = dimensions.y*2;
+
+        batch.draw(texture, x, y, width, height);
     }
 
     @Override

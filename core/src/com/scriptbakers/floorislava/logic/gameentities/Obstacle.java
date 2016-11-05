@@ -1,6 +1,8 @@
 package com.scriptbakers.floorislava.logic.gameentities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -9,13 +11,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.scriptbakers.floorislava.Constants.Side;
 
 import java.util.Random;
 
 import static com.scriptbakers.floorislava.Constants.CATEGORY_OBSTACLE;
 import static com.scriptbakers.floorislava.Constants.MASK_OBSTACLE;
-import static com.scriptbakers.floorislava.Constants.OBSTACLE_MARGIN;
 import static com.scriptbakers.floorislava.Constants.SCROLL_VELOCITY;
 import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
 
@@ -26,24 +26,15 @@ import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
 
 public abstract class Obstacle {
     Body body;
-    Random rnd = new Random();
-    int obstacleType;
     World world;
+    Texture texture;
 
     public Obstacle(World world) {
         this.world = world;
     }
 
-    protected void createBody(Shape shape, int y, Side side, float halfWidth) {
+    protected void createBody(Shape shape, float x, float y) {
         BodyDef bodyDef = new BodyDef();
-
-        Random rnd = new Random();
-        obstacleType = rnd.nextInt(3)+1;
-
-        float x = halfWidth + OBSTACLE_MARGIN;
-        if(side == Side.RIGHT)
-            x = WORLD_WIDTH - x;
-
         bodyDef.position.set(x, y);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
@@ -64,13 +55,16 @@ public abstract class Obstacle {
         return body.getPosition();
     }
 
-    public int getObstacleType(){
-        return obstacleType;
-    }
-
     public Body getBody() {
         return body;
     }
+
+    public void setTexture(Texture texture) {
+        if(this.texture == null)
+            this.texture = texture;
+    }
+
+    public abstract void draw(SpriteBatch batch);
 
     public abstract Vector2 getDimensions();
 }

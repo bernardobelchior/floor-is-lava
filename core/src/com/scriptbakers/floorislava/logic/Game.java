@@ -138,4 +138,8 @@ public class Game {
     public Vector2 getPlayerPosition() {
         return player.getPosition();
     }
+
+    public ArrayList<Lava> getLavaPatches() {
+        return lavaPatches;
+    }
 }

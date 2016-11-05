@@ -9,10 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 
 
 public class Constants {
-    public enum Side {
-        RIGHT, LEFT
-    }
-
     public static final int WORLD_WIDTH = 256;
     public static final int WORLD_HEIGHT = 512;
 
@@ -44,7 +40,6 @@ public class Constants {
     public static final float LEFT_LAVA_THRESHOLD = WORLD_WIDTH/5;
     public static final float RIGHT_LAVA_THRESHOLD = WORLD_WIDTH - LEFT_LAVA_THRESHOLD;
 
-    public static final float OBSTACLE_MARGIN = WORLD_WIDTH/32;
     public static final float OBSTACLE_RADIUS = 1.5f*PLAYER_WIDTH;
 
     public static final float LAVA_PATCH_MAX_LENGTH = WORLD_HEIGHT/8;

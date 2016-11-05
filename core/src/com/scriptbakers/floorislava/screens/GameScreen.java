@@ -18,6 +18,7 @@ import com.scriptbakers.floorislava.logic.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.hud.GameHud;
+import com.scriptbakers.floorislava.logic.gameentities.Lava;
 import com.scriptbakers.floorislava.logic.gameentities.Obstacle;
 
 import java.util.ArrayList;
@@ -42,15 +43,13 @@ public class GameScreen implements Screen {
     Viewport viewport;
     GameHud hud;
 
-    float timeElapsed =0;
-    TextureAtlas playerRunning;
-    TextureAtlas playerJumping;
-    Texture table;
-    Texture piano;
-    Texture bed;
+    float timeElapsed;
+    ArrayList<Texture> randomTextures;
     Animation runningAnimation;
     Animation jumpingAnimation;
-    ArrayList<Obstacle> obstacles;
+    Animation lavaAnimation;
+    Texture floorTexture;
+
 
     public GameScreen(Game game, SpriteBatch batch) {
         this.game = game;
@@ -60,22 +59,23 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
         viewport = new ExtendViewport(WORLD_WIDTH, 0, camera);
         this.hud = new GameHud(game, batch, viewport);
+        randomTextures = new ArrayList<Texture>();
+        timeElapsed = 0;
 
         // Needed in order to make the game full screen.
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         camera.position.set(WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
 
+        randomTextures.add(new Texture(Gdx.files.internal("squareTable.png")));
+        randomTextures.add(new Texture(Gdx.files.internal("squarePiano.png")));
+        randomTextures.add(new Texture(Gdx.files.internal("squareBed.png")));
+        floorTexture = new Texture(Gdx.files.internal("floor.png"));
+        floorTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
-        table = new Texture(Gdx.files.internal("squareTable.png"));
-        piano = new Texture(Gdx.files.internal("squarePiano.png"));
-        bed = new Texture(Gdx.files.internal("squareBed.png"));
-
-        playerRunning = new TextureAtlas(Gdx.files.internal("boy.atlas"));
-        playerJumping = new TextureAtlas(Gdx.files.internal("boyJumping.atlas"));
-
-        runningAnimation = new Animation(1/10f, playerRunning.getRegions());
-        jumpingAnimation = new Animation(1/10f, playerJumping.getRegions());
+        runningAnimation = new Animation(1/10f, new TextureAtlas(Gdx.files.internal("boy.atlas")).getRegions());
+        jumpingAnimation = new Animation(1/10f, new TextureAtlas(Gdx.files.internal("boyJumping.atlas")).getRegions());
+        lavaAnimation = new Animation(1/10f, new TextureAtlas(Gdx.files.internal("lava.pack")).getRegions());
     }
 
     @Override
@@ -86,34 +86,26 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         camera.update();
+        timeElapsed += Gdx.graphics.getDeltaTime();
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        timeElapsed += Gdx.graphics.getDeltaTime();
 
-        obstacles=game.getObstacles();
-
-        for (Obstacle obstacle : obstacles) {
-            Texture texture = table;
-
-            switch (obstacle.getObstacleType()) {
-                case 1:
-                    texture = table;
-                    break;
-                case 2:
-                    texture = piano;
-                    break;
-                case 3:
-                    texture = bed;
-                    break;
+        for(int i = 0; i < WORLD_WIDTH; i+=WORLD_WIDTH/2) {
+            for(int j = 0; j < WORLD_HEIGHT; j+=WORLD_HEIGHT/4) {
+                batch.draw(floorTexture, 0, 0, i, j, i+WORLD_WIDTH/2, j+WORLD_HEIGHT/4);
             }
+        }
 
-            float x = obstacle.getPosition().x-obstacle.getDimensions().x;
-            float y = obstacle.getPosition().y-obstacle.getDimensions().y;
-            float width = obstacle.getDimensions().x*2;
-            float height = obstacle.getDimensions().y*2;
 
-            batch.draw(texture, x, y, width, height);
+        for (Obstacle obstacle : game.getObstacles()) {
+            obstacle.setTexture(randomTextures.get((int) (Math.random()*randomTextures.size())));
+            obstacle.draw(batch);
+        }
+
+        for (Lava lava: game.getLavaPatches()) {
+            lava.setAnimation(lavaAnimation);
+            lava.draw(batch, timeElapsed);
         }
 
         TextureRegion frame = runningAnimation.getKeyFrame(timeElapsed,true);
@@ -122,12 +114,10 @@ public class GameScreen implements Screen {
 
         float x = game.getPlayerPosition().x-PLAYER_WIDTH/2;
         float y = game.getPlayerPosition().y-PLAYER_HEIGHT/2;
-        float width = PLAYER_WIDTH*PIXELS_PER_METER/2;
-        float height = PLAYER_HEIGHT*PIXELS_PER_METER/2;
+        float width = PLAYER_WIDTH*PIXELS_PER_METER;
+        float height = PLAYER_HEIGHT*PIXELS_PER_METER;
 
         batch.draw(frame, x, y, width, height);
-
-        //batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
 
         debugRenderer.render(game.world, camera.combined);
