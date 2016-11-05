@@ -42,7 +42,6 @@ public class GameHud {
         this.stage = new Stage(this.vport, this.batch);
         this.stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
-
         this.inputListener = new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -93,15 +92,10 @@ public class GameHud {
 
         if (tempVec.len() <= Constants.MAX_JUMPVEC_LEN) {
             this.jumpVector.set(tempVec);
-            System.out.println("UPDATING VECTOR!!!\n" + tempVec.len());
-        }
-
-        else {
-            System.out.println("ASDFAF");
+        } else {
             this.jumpVector.setAngle(tempVec.angle());
             this.jumpVector.setLength(Constants.MAX_JUMPVEC_LEN);
         }
-
     }
 
     public void deleteJumpVector(){
