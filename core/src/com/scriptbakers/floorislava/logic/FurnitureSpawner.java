@@ -5,10 +5,9 @@ import com.scriptbakers.floorislava.logic.gameentities.furniture.CircularFurnitu
 import com.scriptbakers.floorislava.logic.gameentities.furniture.Furniture;
 import com.scriptbakers.floorislava.logic.gameentities.furniture.RectangularFurniture;
 
-import static com.scriptbakers.floorislava.Constants.LAVA_PATCH_MAX_LENGTH;
+import static com.scriptbakers.floorislava.Constants.LAVA_PATCH_MIN_LENGTH;
 import static com.scriptbakers.floorislava.Constants.LEFT_LAVA_THRESHOLD;
 import static com.scriptbakers.floorislava.Constants.OBSTACLE_RADIUS;
-import static com.scriptbakers.floorislava.Constants.WORLD_HEIGHT;
 import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
 import static com.scriptbakers.floorislava.Graphics.bedTexture;
 import static com.scriptbakers.floorislava.Graphics.pianoTexture;
@@ -25,8 +24,8 @@ public class FurnitureSpawner {
         this.world = world;
     }
 
-    public Furniture generateObstacle(float y) {
-        y += (Math.random()*4-2)*LAVA_PATCH_MAX_LENGTH/4;
+    public Furniture generateObstacle(float y, float patchLength) {
+        y += Math.random()* patchLength;
 
         float x = LEFT_LAVA_THRESHOLD/2;
 

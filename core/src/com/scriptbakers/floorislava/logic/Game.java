@@ -15,7 +15,6 @@ import com.scriptbakers.floorislava.logic.gameentities.Player;
 import java.util.ArrayList;
 
 import static com.scriptbakers.floorislava.Constants.*;
-import static com.scriptbakers.floorislava.Constants.GameState.*;
 
 /**
  * Created by bernardo on 04-11-2016.
@@ -25,11 +24,10 @@ public class Game {
     public final World world;
     public final Player player;
     private ArrayList<Lava> lavaPatches;
-
-
     private int noUpdates;
     private FurnitureSpawner furnitureSpawner;
     private ArrayList<Furniture> furnitures;
+
     public Game() {
         world = new World(Constants.INITIAL_GRAVITY, true);
         player = new Player(world, PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_WIDTH, PLAYER_HEIGHT);
@@ -102,14 +100,19 @@ public class Game {
                 lavaPatches.remove(i);
         }
 
-        if(noUpdates % (60/LAVA_GENERATION_PER_SECOND) == 0) {
-            lavaPatches.add(new Lava(world, (float) Math.random() * LAVA_PATCH_MAX_LENGTH));
+        if(noUpdates % (int) ( 60/LAVA_GENERATION_PER_SECOND) == 0) {
+            float length = (float) (Math.random()*2+1) * LAVA_PATCH_MIN_LENGTH;
+                Lava patch = new Lava(world, 1.5f*WORLD_HEIGHT + LAVA_PATCH_MIN_LENGTH*3, length);
 
-            for(int i = 0; i < Math.random()*3+1; i++) {
-                furnitures.add(furnitureSpawner.generateObstacle(lavaPatches.get(lavaPatches.size()-1).getPosition().y));
+                lavaPatches.add(patch);
+
+                for(int i = 0; i < Math.random()*length/LAVA_PATCH_MIN_LENGTH*2+1; i++) {
+                    furnitures.add(furnitureSpawner.generateObstacle(patch.getPosition().y, length));
+                }
             }
+
         }
-    }
+
 
     public ArrayList<Furniture> getFurnitures(){
         return this.furnitures;

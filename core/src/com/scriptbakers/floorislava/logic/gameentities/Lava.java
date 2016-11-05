@@ -30,14 +30,14 @@ public class Lava {
     float length;
     Animation animation;
 
-    public Lava(World world, float length){
+    public Lava(World world, float y, float length){
         this.length = length;
-        createBody(world);
+        createBody(world, y);
     }
 
-    private void createBody(World world) {
+    private void createBody(World world, float y) {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(WORLD_WIDTH/2, 1.5f*WORLD_HEIGHT);
+        bodyDef.position.set(WORLD_WIDTH/2, y);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bodyDef);
 
