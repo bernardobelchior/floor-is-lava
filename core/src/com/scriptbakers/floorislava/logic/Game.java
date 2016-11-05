@@ -24,7 +24,7 @@ public class Game {
     public final World world;
     public final Player player;
     private ArrayList<Lava> lavaPatches;
-    private int noUpdates;
+    private int numUpdates;
     private FurnitureSpawner furnitureSpawner;
     private ArrayList<Furniture> furnitures;
 
@@ -35,7 +35,7 @@ public class Game {
         lavaPatches = new ArrayList<Lava>();
         furnitures =  new ArrayList<Furniture>();
 
-        noUpdates = 0;
+        numUpdates = 0;
 
         world.setContactListener(new GameContactListener());
         createWalls();
@@ -86,7 +86,7 @@ public class Game {
         if(!player.isAlive())
             Main.stateManager.gameOver();
 
-        noUpdates++;
+        numUpdates++;
 
         for (int i = furnitures.size() - 1; i >= 0; i--) {
             Furniture furniture = furnitures.get(i);
@@ -100,7 +100,7 @@ public class Game {
                 lavaPatches.remove(i);
         }
 
-        if(noUpdates % (int) ( 60/LAVA_GENERATION_PER_SECOND) == 0) {
+        if(numUpdates % (int) ( 60/LAVA_GENERATION_PER_SECOND) == 0) {
             float length = (float) (Math.random()*2+1) * LAVA_PATCH_MIN_LENGTH;
                 Lava patch = new Lava(world, 1.5f*WORLD_HEIGHT + LAVA_PATCH_MIN_LENGTH*3, length);
 
@@ -124,5 +124,9 @@ public class Game {
 
     public ArrayList<Lava> getLavaPatches() {
         return lavaPatches;
+    }
+
+    public int getScore() {
+        return numUpdates /30;
     }
 }

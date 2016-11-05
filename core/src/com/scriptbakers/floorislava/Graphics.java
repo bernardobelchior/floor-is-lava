@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public class Graphics {
     public static final Animation runningAnimation = new Animation(1/10f, new TextureAtlas(Gdx.files.internal("newboy.atlas")).getRegions());
     public static final Animation jumpingAnimation = new Animation(1/10f, new TextureAtlas(Gdx.files.internal("newboyJ.atlas")).getRegions());
-    public static final Animation lavaAnimation = new Animation(1/10f, new TextureAtlas(Gdx.files.internal("lava.atlas")).getRegions());
+    public static final Animation lavaAnimation = new Animation(1/30f, new TextureAtlas(Gdx.files.internal("lava.atlas")).getRegions());
 
     public static final Texture floorTexture = new Texture(Gdx.files.internal("woodFloor.png"));
     public static final Texture tableTexture = new Texture(Gdx.files.internal("squareTable.png"));

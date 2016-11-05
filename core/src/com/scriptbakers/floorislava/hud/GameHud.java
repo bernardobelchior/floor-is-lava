@@ -1,14 +1,17 @@
 package com.scriptbakers.floorislava.hud;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -16,6 +19,9 @@ import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.logic.Game;
 
 import javax.swing.text.View;
+
+import static com.scriptbakers.floorislava.Constants.WORLD_HEIGHT;
+import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
 
 /**
  * Created by epassos on 11/4/16.
@@ -28,20 +34,24 @@ public class GameHud {
     Vector2 jumpOrigin;
     Vector2 jumpVector;
     SpriteBatch batch;
-    //TODO display score
     InputListener inputListener;
     Game game;
     Sprite arrow; //TODO remove
+    Label scoreLabel;
 
 
     public GameHud(final Game game, final SpriteBatch batch, Viewport viewport){
         this.batch = batch;
-        this.table = new Table();
         this.game = game;
-        this.stage = new Stage(viewport, batch);
-        this.stage.addActor(table);
+
+        stage = new Stage(viewport, batch);
+        table = new Table();
+        stage.addActor(table);
+        stage.getCamera().position.set(WORLD_WIDTH/2, WORLD_HEIGHT/2, 0);
+
+
         Gdx.input.setInputProcessor(stage);
-        this.arrow = new Sprite(new Texture("arrow.png"));
+        arrow = new Sprite(new Texture("arrow.png"));
         final int ARROW_MAX_LEN = 100;
 
         this.inputListener = new InputListener(){
@@ -73,6 +83,9 @@ public class GameHud {
 
         this.stage.addListener(inputListener);
 
+        Label.LabelStyle labelStyle = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+        scoreLabel = new Label("Score: 0", labelStyle);
+        table.add(scoreLabel).left().top();
     }
 
     public void endJumpVector(){
@@ -112,6 +125,9 @@ public class GameHud {
         batch.begin();
         arrow.draw(batch);
         batch.end();
+
+        scoreLabel.setText("Score: " + game.getScore());
+        stage.draw();
     }
 
     public Stage getStage(){
