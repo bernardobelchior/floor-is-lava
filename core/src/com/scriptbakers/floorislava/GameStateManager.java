@@ -68,9 +68,10 @@ public class GameStateManager extends ApplicationAdapter {
 				//TODO: Implement
 				break;
 			case RUNNING:
-				if(screens.size() > 1)
-					screens.remove(screens.size()-1);
-					System.out.println("ESTA A CORRER");
+				if(screens.size() > 1) {
+                    screens.remove(screens.size() - 1);
+                    System.out.println("ESTA A CORRER");
+                }
 				//	screens.remove(0);
 				break;
 		}

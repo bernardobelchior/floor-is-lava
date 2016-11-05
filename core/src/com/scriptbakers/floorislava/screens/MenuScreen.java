@@ -55,13 +55,11 @@ public class MenuScreen implements Screen{
         camera.position.set(Constants.WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
         stage = new Stage(viewport, batch);
         renderedOnce = false;
-       
-        Gdx.input.setInputProcessor(stage);
     }
 
 
     public void show(){
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     public void resize(int width, int height) {
