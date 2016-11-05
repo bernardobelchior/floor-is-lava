@@ -91,8 +91,8 @@ public class MenuScreen implements Screen{
         camera.update();
 
         batch.begin();
-        batch.draw(gameTitle, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/2, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/3);
-        batch.draw(teamTitle, Gdx.graphics.getWidth()/4, 0, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/4);
+        batch.draw(gameTitle, viewport.getWorldWidth()/4,viewport.getWorldHeight()/2, viewport.getWorldWidth()/2, viewport.getWorldHeight()/3);
+        batch.draw(teamTitle,  viewport.getWorldWidth()/4,0, viewport.getWorldWidth()/2, viewport.getWorldHeight()/4);
         if(Gdx.input.isTouched()){
             game.run();
         }
