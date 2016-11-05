@@ -43,9 +43,7 @@ public class GameScreen implements Screen {
     Viewport viewport;
     GameHud hud;
     float timeElapsed;
-    float temp=0;
-    Animation lavaAnimation;
-    TextureAtlas lavaTexture;
+
 
     public GameScreen(Game game, SpriteBatch batch) {
         this.game = game;
@@ -54,15 +52,13 @@ public class GameScreen implements Screen {
         debugRenderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
         viewport = new ExtendViewport(WORLD_WIDTH, 0, camera);
-        this.hud = new GameHud(game, batch, viewport);
+        hud = new GameHud(game, batch, viewport);
         timeElapsed = 0;
 
         // Needed in order to make the game full screen.
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         camera.position.set(WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
-        lavaTexture = new TextureAtlas(Gdx.files.internal("lava.atlas"));
-        lavaAnimation = new Animation(1/30f, lavaTexture.getRegions());
         floorTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
     }
 
@@ -85,27 +81,18 @@ public class GameScreen implements Screen {
             }
         }
 
-        TextureRegion frame = lavaAnimation.getKeyFrame(timeElapsed);
-
         for(int x=0; x<WORLD_HEIGHT*100;x+=WORLD_HEIGHT/12){
             batch.draw(lavaAnimation.getKeyFrame(timeElapsed,true), 0, x-timeElapsed*100, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT/8);
             batch.draw(lavaAnimation.getKeyFrame(timeElapsed,true),RIGHT_LAVA_THRESHOLD,  x-timeElapsed*100, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT/8);
-            //batch.draw(frame, 0, x-timeElapsed*100, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT);
-            //batch.draw(frame, RIGHT_LAVA_THRESHOLD,  x-timeElapsed*100, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT);
         }
 
-
-
-        for (Furniture furniture : game.getFurnitures()) {
+        for (Furniture furniture : game.getFurnitures())
             furniture.draw(batch);
-        }
 
-        for (Lava lava: game.getLavaPatches()) {
-            lava.setAnimation(lavaAnimation);
+        for (Lava lava: game.getLavaPatches())
             lava.draw(batch, timeElapsed);
-        }
 
-        frame = runningAnimation.getKeyFrame(timeElapsed,true);
+        TextureRegion frame = runningAnimation.getKeyFrame(timeElapsed,true);
         if(game.player.isJumping())
             frame = jumpingAnimation.getKeyFrames()[2];
 

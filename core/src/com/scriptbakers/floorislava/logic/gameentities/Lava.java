@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import static com.scriptbakers.floorislava.Constants.CATEGORY_LAVA;
 import static com.scriptbakers.floorislava.Constants.CATEGORY_PLAYER;
+import static com.scriptbakers.floorislava.Constants.LAVA_PATCH_MIN_LENGTH;
 import static com.scriptbakers.floorislava.Constants.LEFT_LAVA_THRESHOLD;
 import static com.scriptbakers.floorislava.Constants.MASK_LAVA;
 import static com.scriptbakers.floorislava.Constants.MASK_PLAYER;
@@ -20,6 +21,7 @@ import static com.scriptbakers.floorislava.Constants.PIXELS_PER_METER;
 import static com.scriptbakers.floorislava.Constants.SCROLL_VELOCITY;
 import static com.scriptbakers.floorislava.Constants.WORLD_HEIGHT;
 import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
+import static com.scriptbakers.floorislava.Graphics.lavaAnimation;
 
 /**
  * Created by epassos on 11/4/16.
@@ -28,7 +30,6 @@ import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
 public class Lava {
     Body body;
     float length;
-    Animation animation;
 
     public Lava(World world, float y, float length){
         this.length = length;
@@ -65,20 +66,26 @@ public class Lava {
         return length;
     }
 
-    public void setAnimation(Animation animation) {
-        if(this.animation == null)
-            this.animation = animation;
-    }
-
     public void draw(SpriteBatch batch, float timeElapsed) {
-        if(animation == null)
-            return;
-
         float x = body.getPosition().x - (WORLD_WIDTH/2-LEFT_LAVA_THRESHOLD);
-        float y = body.getPosition().y - length;
+        //FIXME: Workaround due to the texture
+        float y = body.getPosition().y - length*1.7f;
         float width =(WORLD_WIDTH/2-LEFT_LAVA_THRESHOLD)/2*PIXELS_PER_METER;
-        float height = length/2*PIXELS_PER_METER;
+        float height = 1.5f*length/2*PIXELS_PER_METER;
 
-        batch.draw(animation.getKeyFrame(timeElapsed,true), x, y, width, height);
+        batch.draw(lavaAnimation.getKeyFrame(timeElapsed,true), x, y, width, height);
+
+        /*float x = body.getPosition().x - (WORLD_WIDTH/2-LEFT_LAVA_THRESHOLD);
+        float y = body.getPosition().y - length;
+        float width =(WORLD_WIDTH/2-LEFT_LAVA_THRESHOLD)/2*PIXELS_PER_METER/3;
+        float height = length/2*PIXELS_PER_METER/LAVA_PATCH_MIN_LENGTH;
+
+        for(int i = 0; i < 3; i++) {
+            x += WORLD_WIDTH/(2*LEFT_LAVA_THRESHOLD)*i;
+            for(int j = 0; i < length/LAVA_PATCH_MIN_LENGTH; i++) {
+                y += length/LAVA_PATCH_MIN_LENGTH*j;
+                batch.draw(lavaAnimation.getKeyFrame(timeElapsed,true), x, y, width, height);
+            }
+        }*/
     }
 }
