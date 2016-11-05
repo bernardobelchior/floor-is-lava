@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -41,6 +43,9 @@ public class GameScreen implements Screen {
     Viewport viewport;
     GameHud hud;
     float timeElapsed;
+    float temp=0;
+    Animation lavaAnimation;
+    TextureAtlas lavaTexture;
 
     public GameScreen(Game game, SpriteBatch batch) {
         this.game = game;
@@ -56,7 +61,8 @@ public class GameScreen implements Screen {
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         camera.position.set(WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
-
+        lavaTexture = new TextureAtlas(Gdx.files.internal("lava.atlas"));
+        lavaAnimation = new Animation(1/30f, lavaTexture.getRegions());
         floorTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
     }
 
@@ -73,15 +79,21 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
-        for(int i = 0; i < WORLD_WIDTH; i+=WORLD_WIDTH) {
-            for(int j = 0; j < WORLD_HEIGHT; j+=WORLD_HEIGHT/4) {
-                batch.draw(floorTexture, LEFT_LAVA_THRESHOLD, 0, i, j, i+WORLD_WIDTH, j+WORLD_HEIGHT/4);
+        for(int i = 0; i < WORLD_WIDTH; i+=WORLD_WIDTH/4) {
+            for(int j = 0; j < WORLD_HEIGHT*100; j+=WORLD_HEIGHT/8) {
+                    batch.draw(floorTexture, i, j-timeElapsed*100, WORLD_WIDTH/4 , WORLD_HEIGHT/8);
             }
         }
 
         TextureRegion frame = lavaAnimation.getKeyFrame(timeElapsed);
-        batch.draw(frame, 0, 0, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT);
-        batch.draw(frame, RIGHT_LAVA_THRESHOLD, 0, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT);
+
+        for(int x=0; x<WORLD_HEIGHT*100;x+=WORLD_HEIGHT/12){
+            batch.draw(lavaAnimation.getKeyFrame(timeElapsed,true), 0, x-timeElapsed*100, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT/8);
+            batch.draw(lavaAnimation.getKeyFrame(timeElapsed,true),RIGHT_LAVA_THRESHOLD,  x-timeElapsed*100, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT/8);
+            //batch.draw(frame, 0, x-timeElapsed*100, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT);
+            //batch.draw(frame, RIGHT_LAVA_THRESHOLD,  x-timeElapsed*100, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT);
+        }
+
 
 
         for (Furniture furniture : game.getFurnitures()) {

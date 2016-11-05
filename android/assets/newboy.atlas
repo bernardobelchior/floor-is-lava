@@ -1,0 +1,26 @@
+
+newboy.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+newboy1
+  rotate: false
+  xy: 1, 305
+  size: 125, 150
+  orig: 125, 150
+  offset: 0, 0
+  index: -1
+newboy2
+  rotate: false
+  xy: 1, 153
+  size: 125, 150
+  orig: 125, 150
+  offset: 0, 0
+  index: -1
+newboy3
+  rotate: false
+  xy: 1, 1
+  size: 125, 150
+  orig: 125, 150
+  offset: 0, 0
+  index: -1
