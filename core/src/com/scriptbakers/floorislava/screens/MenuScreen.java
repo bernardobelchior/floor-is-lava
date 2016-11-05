@@ -60,29 +60,20 @@ public class MenuScreen implements Screen{
         TextureRegionDrawable highScoreBtn = new TextureRegionDrawable(new TextureRegion(new Texture("highscores.png")));
         highScoreButton = new ImageButton(highScoreBtn);
 
-        highScoreButtonListener = new InputListener(){
+        InputListener highScoreButtonListener = new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                
 
+
+                return true;
             }
-        }
+        };
 
         stage.addActor(highScoreButton);
         Gdx.input.setInputProcessor(stage);
     }
 
-    public void show(){
-       /* Gdx.input.setInputProcessor(stage);
-
-        this.inputListener = new InputListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("touchDownRUUNNNN"); //FIXME debug only
-                game.run();
-                return true;
-            }
-        };*/
-    }
 
     public void resize(int width, int height) {
         camera = new OrthographicCamera(width, height);

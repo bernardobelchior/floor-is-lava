@@ -3,18 +3,29 @@ package com.scriptbakers.floorislava.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.scriptbakers.floorislava.logic.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.hud.GameHud;
+import com.scriptbakers.floorislava.logic.gameentities.Lava;
+import com.scriptbakers.floorislava.logic.gameentities.furniture.Furniture;
 
-import static com.scriptbakers.floorislava.Constants.GameState.RUNNING;
+import static com.scriptbakers.floorislava.Constants.LEFT_LAVA_THRESHOLD;
+import static com.scriptbakers.floorislava.Constants.PIXELS_PER_METER;
+import static com.scriptbakers.floorislava.Constants.PLAYER_HEIGHT;
+import static com.scriptbakers.floorislava.Constants.PLAYER_WIDTH;
+import static com.scriptbakers.floorislava.Constants.RIGHT_LAVA_THRESHOLD;
 import static com.scriptbakers.floorislava.Constants.WORLD_HEIGHT;
 import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
+import static com.scriptbakers.floorislava.Graphics.floorTexture;
+import static com.scriptbakers.floorislava.Graphics.jumpingAnimation;
+import static com.scriptbakers.floorislava.Graphics.lavaAnimation;
+import static com.scriptbakers.floorislava.Graphics.runningAnimation;
 
 
 /**
@@ -28,22 +39,24 @@ public class GameScreen implements Screen {
     OrthographicCamera camera;
     Viewport viewport;
     GameHud hud;
-    boolean renderedOnce;
+    float timeElapsed;
 
     public GameScreen(Game game, SpriteBatch batch) {
         this.game = game;
         this.batch = batch;
-        this.hud = new GameHud(game, batch);
 
         debugRenderer = new Box2DDebugRenderer();
-
         camera = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
         viewport = new ExtendViewport(WORLD_WIDTH, 0, camera);
+        this.hud = new GameHud(game, batch, viewport);
+        timeElapsed = 0;
+
         // Needed in order to make the game full screen.
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         camera.position.set(WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
-        renderedOnce = false;
+
+        floorTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
     }
 
     @Override
@@ -53,21 +66,46 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if(game.getGameState() != RUNNING && renderedOnce)
-            return;
-
-        renderedOnce = true;
-
         camera.update();
-        game.update(delta);
+        timeElapsed += Gdx.graphics.getDeltaTime();
 
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        //batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        hud.draw();
+
+        for(int i = 0; i < WORLD_WIDTH; i+=WORLD_WIDTH) {
+            for(int j = 0; j < WORLD_HEIGHT; j+=WORLD_HEIGHT/4) {
+                batch.draw(floorTexture, LEFT_LAVA_THRESHOLD, 0, i, j, i+WORLD_WIDTH, j+WORLD_HEIGHT/4);
+            }
+        }
+
+        TextureRegion frame = lavaAnimation.getKeyFrame(timeElapsed);
+        batch.draw(frame, 0, 0, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT);
+        batch.draw(frame, RIGHT_LAVA_THRESHOLD, 0, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT);
+
+
+        for (Furniture furniture : game.getFurnitures()) {
+            furniture.draw(batch);
+        }
+
+        for (Lava lava: game.getLavaPatches()) {
+            lava.setAnimation(lavaAnimation);
+            lava.draw(batch, timeElapsed);
+        }
+
+        frame = runningAnimation.getKeyFrame(timeElapsed,true);
+        if(game.player.isJumping())
+            frame = jumpingAnimation.getKeyFrames()[2];
+
+        float x = game.getPlayerPosition().x-PLAYER_WIDTH/2;
+        float y = game.getPlayerPosition().y-PLAYER_HEIGHT/2;
+        float width = PLAYER_WIDTH*PIXELS_PER_METER;
+        float height = PLAYER_HEIGHT*PIXELS_PER_METER;
+
+        batch.draw(frame, x, y, width, height);
         batch.end();
-        batch.setProjectionMatrix(hud.getStage().getCamera().combined);
 
         debugRenderer.render(game.world, camera.combined);
+        hud.draw();
     }
 
     @Override

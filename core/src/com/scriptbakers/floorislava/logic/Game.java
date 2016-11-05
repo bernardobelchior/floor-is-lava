@@ -2,25 +2,24 @@ package com.scriptbakers.floorislava.logic;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.ContactFilter;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
-import com.scriptbakers.floorislava.logic.gameentities.Player;
 import com.scriptbakers.floorislava.Constants;
+import com.scriptbakers.floorislava.logic.gameentities.Lava;
+import com.scriptbakers.floorislava.logic.gameentities.furniture.Furniture;
+import com.scriptbakers.floorislava.logic.gameentities.Player;
+
+import java.util.ArrayList;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import static com.scriptbakers.floorislava.Constants.*;
-import static com.scriptbakers.floorislava.Constants.GameState.OVER;
-import static com.scriptbakers.floorislava.Constants.GameState.PAUSED;
-import static com.scriptbakers.floorislava.Constants.GameState.RUNNING;
+import static com.scriptbakers.floorislava.Constants.GameState.*;
 
 /**
  * Created by bernardo on 04-11-2016.
@@ -29,24 +28,29 @@ import static com.scriptbakers.floorislava.Constants.GameState.RUNNING;
 public class Game {
     public final World world;
     public final Player player;
+    private ArrayList<Lava> lavaPatches;
+
 
     private int noUpdates;
-    private ObstacleGenerator obstacleGenerator;
+    private FurnitureSpawner furnitureSpawner;
     private GameState gameState;
 
     //scores
     public ArrayList<Integer> scores;
     private Preferences scoresPref;
 
+    private ArrayList<Furniture> furnitures;
+
     public Game() {
         world = new World(Constants.INITIAL_GRAVITY, true);
-        world.setContactListener(new GameContactListener());
         player = new Player(world, PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_WIDTH, PLAYER_HEIGHT);
-        obstacleGenerator = new ObstacleGenerator(world);
-        createWalls();
+        furnitureSpawner = new FurnitureSpawner(world);
+        lavaPatches = new ArrayList<Lava>();
+        furnitures =  new ArrayList<Furniture>();
 
         noUpdates = 0;
         gameState = PAUSED;
+
 
         //scores
         scores = new ArrayList<Integer>();
@@ -63,6 +67,9 @@ public class Game {
         }
         else
             readScores();
+
+        world.setContactListener(new GameContactListener());
+        createWalls();
     }
 
     private void createWalls() {
@@ -115,8 +122,28 @@ public class Game {
 
         noUpdates++;
 
-        if(noUpdates % (60/ OBSTACLE_GENENATION_PER_SECOND) == 0)
-            obstacleGenerator.generateObstacle(Math.round(player.getPosition().y));
+        for (int i = furnitures.size() - 1; i >= 0; i--) {
+            Furniture furniture = furnitures.get(i);
+            if(furniture.getPosition().y - furniture.getDimensions().y< 0)
+                furnitures.remove(i);
+        }
+
+        for (int i = lavaPatches.size() - 1; i >= 0; i--) {
+            Lava lava = lavaPatches.get(i);
+            if (lava.getPosition().y + lava.getLength() / 2 < 0)
+                lavaPatches.remove(i);
+        }
+
+    if(noUpdates % (60/ FURNITURE_SPAWNED_PER_SECOND) == 0)
+        furnitures.add(furnitureSpawner.generateObstacle(Math.round(player.getPosition().y)));
+
+
+        if(noUpdates % (60/LAVA_GENERATION_PER_SECOND) == 0)
+            lavaPatches.add(new Lava(world, (float) Math.random()* LAVA_PATCH_MAX_LENGTH));
+
+
+
+
     }
 
     public void run() {
@@ -131,13 +158,14 @@ public class Game {
         return gameState;
     }
 
+
     public void readScores() {
         scores.add(scoresPref.getInteger("score1"));
         scores.add(scoresPref.getInteger("score2"));
         scores.add(scoresPref.getInteger("score3"));
     }
 
-    public void writeScores(){
+    public void writeScores() {
         Collections.sort(scores);
         Collections.reverse(scores);
         scoresPref.putString("name", "floor is lava");
@@ -146,5 +174,17 @@ public class Game {
         scoresPref.putInteger("score3", scores.get(2));
 
         scoresPref.flush();
+    }
+
+    public ArrayList<Furniture> getFurnitures(){
+        return this.furnitures;
+    }
+
+    public Vector2 getPlayerPosition() {
+        return player.getPosition();
+    }
+
+    public ArrayList<Lava> getLavaPatches() {
+        return lavaPatches;
     }
 }

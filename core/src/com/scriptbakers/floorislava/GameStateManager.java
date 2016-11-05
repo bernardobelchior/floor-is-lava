@@ -16,9 +16,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.scriptbakers.floorislava.Constants.GameState.OVER;
+import static com.scriptbakers.floorislava.Constants.GameState.PAUSED;
+import static com.scriptbakers.floorislava.Constants.GameState.RUNNING;
+
 public class GameStateManager extends ApplicationAdapter {
 	ArrayList<Screen> screens;
 	Game game;
+	GameOverScreen gameOverScreen;
 	SpriteBatch batch;
 
 
@@ -31,7 +36,9 @@ public class GameStateManager extends ApplicationAdapter {
 
 		screens.add(new MenuScreen(game, batch));
 		screens.add(new GameScreen(game, batch));
+		gameOverScreen = new GameOverScreen(game, batch);
 
+		game.run();
 		}
 
 	@Override
