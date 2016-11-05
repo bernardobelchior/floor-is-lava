@@ -46,12 +46,14 @@ public class StateManager {
 
     public void restartGame() {
         game = new Game();
+        screens.clear();
+        screens.add(new GameScreen(game, batch));
         startGame();
     }
 
     public void startGame() {
-        screens.clear();
-        screens.add(new GameScreen(game, batch));
+        if(screens.size() > 1)
+            screens.remove(screens.size()-1);
         screens.get(screens.size()-1).show();
         gameState = Constants.GameState.RUNNING;
     }

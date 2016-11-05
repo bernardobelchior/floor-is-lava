@@ -79,7 +79,7 @@ public class GameScreen implements Screen {
             }
         }
 
-        TextureRegion frame = lavaAnimation.getKeyFrame(timeElapsed);
+        TextureRegion frame = lavaAnimation.getKeyFrame(timeElapsed, true);
         batch.draw(frame, 0, 0, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT);
         batch.draw(frame, RIGHT_LAVA_THRESHOLD, 0, LEFT_LAVA_THRESHOLD, WORLD_HEIGHT);
 

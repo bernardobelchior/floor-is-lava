@@ -3,6 +3,7 @@ package com.scriptbakers.floorislava.logic;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.scriptbakers.floorislava.logic.gameentities.Player;
 
@@ -31,6 +32,16 @@ public class GameContactListener implements ContactListener {
                     break;
             }
         }
+        //Delete overlapping furniture.
+        /*else if(fixtureACategory == CATEGORY_FURNITURE) {
+            switch (fixtureBCategory) {
+                case CATEGORY_FURNITURE:
+                    contact.setEnabled(false);
+                    Fixture fixture = contact.getFixtureB();
+                    fixture.getBody().destroyFixture(fixture);
+                    break;
+            }
+        }*/
 
         if(fixtureBCategory == CATEGORY_PLAYER ) {
             Player player = (Player) contact.getFixtureB().getBody().getUserData();
@@ -61,6 +72,7 @@ public class GameContactListener implements ContactListener {
                     break;
             }
         }
+
 
         if(fixtureBCategory == CATEGORY_PLAYER ) {
             Player player = (Player) contact.getFixtureB().getBody().getUserData();

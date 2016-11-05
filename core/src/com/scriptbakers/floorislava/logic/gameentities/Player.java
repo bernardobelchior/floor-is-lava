@@ -76,7 +76,7 @@ public class Player {
         if((body.getPosition().x + PLAYER_WIDTH/2 > RIGHT_LAVA_THRESHOLD) && !onObstacle  && jumpTime == 0)
             alive = false;
 
-        if(!isJumping() && onLava)
+        if(!isJumping() && onLava && !onObstacle)
             alive = false;
 
         if (jumpTime > 0)
