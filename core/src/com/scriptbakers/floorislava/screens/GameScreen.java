@@ -105,8 +105,9 @@ public class GameScreen implements Screen {
         batch.draw(frame, x, y, width, height);
         batch.end();
 
-        debugRenderer.render(game.world, camera.combined);
         hud.draw();
+
+        debugRenderer.render(game.world, camera.combined);
     }
 
     @Override
