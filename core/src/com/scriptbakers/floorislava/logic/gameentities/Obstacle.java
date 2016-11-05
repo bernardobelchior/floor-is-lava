@@ -15,6 +15,7 @@ import java.util.Random;
 
 import static com.scriptbakers.floorislava.Constants.CATEGORY_OBSTACLE;
 import static com.scriptbakers.floorislava.Constants.MASK_OBSTACLE;
+import static com.scriptbakers.floorislava.Constants.OBSTACLE_MARGIN;
 import static com.scriptbakers.floorislava.Constants.SCROLL_VELOCITY;
 import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
 
@@ -26,20 +27,20 @@ import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
 public class Obstacle {
     Body body;
     Random rnd = new Random();
-
+    float radius;
     int obstacleType;
 
     public Obstacle(World world, Shape shape, int y, Side side) {
         BodyDef bodyDef = new BodyDef();
-        int x = Math.round(shape.getRadius());
+
+        radius = shape.getRadius();
+        float x = shape.getRadius() + OBSTACLE_MARGIN;
 
         Random rnd = new Random();
         obstacleType = rnd.nextInt(3)+1;
 
         if(side == Side.RIGHT)
             x = WORLD_WIDTH - x;
-
-        int n = rnd.nextInt(50)+1;
 
         bodyDef.position.set(x, y);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -63,5 +64,9 @@ public class Obstacle {
 
     public int getObstacleType(){
         return obstacleType;
+    }
+
+    public float getRadius() {
+return radius;
     }
 }

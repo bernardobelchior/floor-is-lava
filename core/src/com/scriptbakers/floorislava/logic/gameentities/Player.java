@@ -13,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.scriptbakers.floorislava.Constants;
 
 import static com.scriptbakers.floorislava.Constants.CATEGORY_PLAYER;
-import static com.scriptbakers.floorislava.Constants.GameState.OVER;
 import static com.scriptbakers.floorislava.Constants.LEFT_LAVA_THRESHOLD;
 import static com.scriptbakers.floorislava.Constants.MASK_PLAYER;
 import static com.scriptbakers.floorislava.Constants.PLAYER_HEIGHT;
@@ -88,7 +87,7 @@ public class Player {
 
     public void jump(Vector2 jumpVector){
         body.setLinearVelocity(jumpVector.cpy().scl(50));
-        jumpTime = Math.round(90*jumpVector.len()/ Constants.MAX_JUMPVEC_LEN);
+        jumpTime = Math.round(Constants.JUMP_TIME_MULTIPLIER *jumpVector.len()/ Constants.MAX_JUMP_VECTOR_LENGTH);
     }
 
     public Vector2 getPosition() {
@@ -99,7 +98,11 @@ public class Player {
         return alive;
     }
 
-    public boolean isJumping(){
-        return jumpTime>0;
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public boolean isJumping() {
+        return jumpTime > 0;
     }
 }

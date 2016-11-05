@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.scriptbakers.floorislava.logic.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,7 +18,6 @@ import com.scriptbakers.floorislava.logic.gameentities.Obstacle;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static com.scriptbakers.floorislava.Constants.GameState.RUNNING;
 import static com.scriptbakers.floorislava.Constants.WORLD_HEIGHT;
 import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
 
@@ -35,8 +33,8 @@ public class GameScreen implements Screen {
     OrthographicCamera camera;
     Viewport viewport;
     GameHud hud;
-    boolean renderedOnce;
-    float timePassed=0;
+
+    float timeElapsed =0;
     TextureAtlas playerRunning;
     TextureAtlas playerJumping;
     Texture table;
@@ -63,8 +61,6 @@ public class GameScreen implements Screen {
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         camera.position.set(WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
-        renderedOnce = false;
-
         playerRunning = new TextureAtlas(Gdx.files.internal("boy.atlas"));
         playerJumping = new TextureAtlas(Gdx.files.internal("boyJumping.atlas"));
 
@@ -79,16 +75,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if(game.getGameState() != RUNNING && renderedOnce)
-            return;
-
-        renderedOnce = true;
-
         camera.update();
-        game.update(delta);
 
         batch.begin();
-        timePassed += Gdx.graphics.getDeltaTime();
+        timeElapsed += Gdx.graphics.getDeltaTime();
 
         obstacles=game.getObstacles();
         Iterator<Obstacle> obstacleIterator = obstacles.iterator();
@@ -110,7 +100,7 @@ public class GameScreen implements Screen {
         if(game.player.isJumping()==true)
             batch.draw(jumpingAnimation.getKeyFrames()[2],game.player.getPosition().x*(Gdx.graphics.getWidth()/viewport.getWorldWidth())-250/2,game.player.getPosition().y*(Gdx.graphics.getHeight()/viewport.getWorldHeight())-300);
         else
-            batch.draw(runningAnimation.getKeyFrame(timePassed,true),game.player.getPosition().x*(Gdx.graphics.getWidth()/viewport.getWorldWidth())-128/2,game.player.getPosition().y*(Gdx.graphics.getHeight()/viewport.getWorldHeight())-200);
+            batch.draw(runningAnimation.getKeyFrame(timeElapsed,true),game.player.getPosition().x*(Gdx.graphics.getWidth()/viewport.getWorldWidth())-128/2,game.player.getPosition().y*(Gdx.graphics.getHeight()/viewport.getWorldHeight())-200);
 
         //batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();

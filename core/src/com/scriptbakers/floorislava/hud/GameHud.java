@@ -1,9 +1,7 @@
 package com.scriptbakers.floorislava.hud;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -90,11 +88,11 @@ public class GameHud {
             tempVec.setAngle(180);
 
 
-        if (tempVec.len() <= Constants.MAX_JUMPVEC_LEN) {
+        if (tempVec.len() <= Constants.MAX_JUMP_VECTOR_LENGTH) {
             this.jumpVector.set(tempVec);
         } else {
             this.jumpVector.setAngle(tempVec.angle());
-            this.jumpVector.setLength(Constants.MAX_JUMPVEC_LEN);
+            this.jumpVector.setLength(Constants.MAX_JUMP_VECTOR_LENGTH);
         }
     }
 

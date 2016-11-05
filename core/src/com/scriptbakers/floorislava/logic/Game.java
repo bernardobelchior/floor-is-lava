@@ -2,26 +2,19 @@ package com.scriptbakers.floorislava.logic;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.ContactFilter;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.MassData;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.physics.box2d.World;
-import com.scriptbakers.floorislava.logic.ObstacleGenerator;
+import com.scriptbakers.floorislava.Constants;
+import com.scriptbakers.floorislava.logic.gameentities.Lava;
 import com.scriptbakers.floorislava.logic.gameentities.Obstacle;
 import com.scriptbakers.floorislava.logic.gameentities.Player;
-import com.scriptbakers.floorislava.Constants;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import static com.scriptbakers.floorislava.Constants.*;
-import static com.scriptbakers.floorislava.Constants.GameState.OVER;
-import static com.scriptbakers.floorislava.Constants.GameState.PAUSED;
-import static com.scriptbakers.floorislava.Constants.GameState.RUNNING;
+import static com.scriptbakers.floorislava.Constants.GameState.*;
 
 /**
  * Created by bernardo on 04-11-2016.
@@ -30,6 +23,8 @@ import static com.scriptbakers.floorislava.Constants.GameState.RUNNING;
 public class Game {
     public final World world;
     public final Player player;
+    private ArrayList<Lava> lavaPatches;
+
 
     private int noUpdates;
     private ObstacleGenerator obstacleGenerator;
@@ -37,14 +32,16 @@ public class Game {
     private ArrayList<Obstacle> obstacles;
     public Game() {
         world = new World(Constants.INITIAL_GRAVITY, true);
-        world.setContactListener(new GameContactListener());
         player = new Player(world, PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_WIDTH, PLAYER_HEIGHT);
         obstacleGenerator = new ObstacleGenerator(world);
-        createWalls();
+        lavaPatches = new ArrayList<Lava>();
+        obstacles =  new ArrayList<Obstacle>();
 
         noUpdates = 0;
         gameState = PAUSED;
-        obstacles =  new ArrayList<Obstacle>();
+
+        world.setContactListener(new GameContactListener());
+        createWalls();
     }
 
     private void createWalls() {
@@ -97,16 +94,26 @@ public class Game {
 
         noUpdates++;
 
-        if(noUpdates % (60/ OBSTACLE_GENENATION_PER_SECOND) == 0){
-            obstacles.add(obstacleGenerator.generateObstacle(Math.round(player.getPosition().y)));
+        for (int i = obstacles.size() - 1; i >= 0; i--) {
+            Obstacle obstacle = obstacles.get(i);
+            if(obstacle.getPosition().y - obstacle.getRadius() < 0)
+                obstacles.remove(i);
         }
 
-        Iterator<Obstacle> obstacleIterator = obstacles.iterator();
-        while (obstacleIterator.hasNext()){
-            if(obstacleIterator.next().getPosition().y < 0){
-                obstacles.remove(obstacleIterator);
-            }
+        for (int i = lavaPatches.size() - 1; i >= 0; i--) {
+            Lava lava = lavaPatches.get(i);
+            if (lava.getPosition().y + lava.getLength() / 2 < 0)
+                lavaPatches.remove(i);
         }
+
+    if(noUpdates % (60/ OBSTACLE_GENERATION_PER_SECOND) == 0)
+        obstacles.add(obstacleGenerator.generateObstacle(Math.round(player.getPosition().y)));
+
+
+        if(noUpdates % (60/LAVA_GENERATION_PER_SECOND) == 0)
+            lavaPatches.add(new Lava(world, (float) Math.random()* LAVA_PATCH_MAX_LENGTH));
+
+
 
 
     }

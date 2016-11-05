@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class GameStateManager extends ApplicationAdapter {
 	ArrayList<Screen> screens;
 	Game game;
+	GameOverScreen gameOverScreen;
 	SpriteBatch batch;
 
 	@Override
@@ -24,6 +25,8 @@ public class GameStateManager extends ApplicationAdapter {
 
 		screens.add(new GameScreen(game, batch));
 		//screens.add(new MenuScreen(this, batch));
+		gameOverScreen = new GameOverScreen(game, batch);
+
 		game.run();
 		}
 
@@ -35,9 +38,13 @@ public class GameStateManager extends ApplicationAdapter {
 		game.update(1/60f);
 		updateGameState();
 
-		for (Screen screen:	screens) {
-			screen.render(1/60f);
-		}
+		screens.get(0).render(1/60f);
+		if(game.getGameState() == Constants.GameState.OVER)
+			gameOverScreen.render(1/60f);
+
+//		for (Screen screen:	screens) {
+//			screen.render(1/60f);
+//		}
 	}
 
 	public void updateGameState(){
