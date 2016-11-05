@@ -3,14 +3,25 @@ package com.scriptbakers.floorislava.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.scriptbakers.floorislava.Constants;
+import com.scriptbakers.floorislava.hud.GameHud;
 import com.scriptbakers.floorislava.logic.Game;
+
+import static com.scriptbakers.floorislava.Constants.GameState.PAUSED;
+import static com.scriptbakers.floorislava.Constants.GameState.RUNNING;
 
 /**
  * Created by inesc on 04/11/2016.
@@ -18,45 +29,49 @@ import com.scriptbakers.floorislava.logic.Game;
 
 public class MenuScreen implements Screen{
     //private static MenuScreen ourInstance = new MenuScreen();
+    SpriteBatch batch;
+    Game game;
+    Box2DDebugRenderer debugRenderer;
+    OrthographicCamera camera;
+    FitViewport viewport;
+    boolean renderedOnce;
+    Sprite gameTitle, teamTitle;
+    Stage stage;
+    InputListener inputListener;
 
-    private ImageButton playButton;
-    private Skin skin;
-    private TextureAtlas buttonsAtlas;
-    private Stage stage;
-    private SpriteBatch batch;
-    private Game game;
-
-    public MenuScreen(SpriteBatch batch) {
+    public MenuScreen(Game game, SpriteBatch batch) {
+        this.game = game;
         this.batch = batch;
 
-        //background image
-        skin = new Skin();
-        stage = new Stage();
+        //debugRenderer = new Box2DDebugRenderer();
+
+        gameTitle = new Sprite(new Texture("gameTitle.png"));
+        teamTitle = new Sprite(new Texture("teamTitle.png"));
+        gameTitle.scale(0.2f);
+        camera = new OrthographicCamera(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
+        viewport = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
+        camera.position.set(Constants.WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
+        stage = new Stage(viewport, batch);
+        renderedOnce = false;
+
+        Gdx.input.setInputProcessor(stage);
     }
 
     public void show(){
+       /* Gdx.input.setInputProcessor(stage);
 
-        buttonsAtlas = new TextureAtlas("buttons.pack");
-        skin = new Skin();
-        skin.addRegions(buttonsAtlas);
-
-        Gdx.input.setInputProcessor(stage);
-
-        //PLAY BUTTON
-        playButton= new ImageButton(skin.getDrawable("playButton"));
-        playButton.setSize(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        playButton.setPosition((Gdx.graphics.getWidth()/2 - playButton.getWidth()/2), Gdx.graphics.getHeight()/2);
-        stage.addActor(playButton);
-        playButton.addListener(new ClickListener(){
-            public void clicked(InputEvent event, float x, float y) {
-               ;
+        this.inputListener = new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("touchDownRUUNNNN"); //FIXME debug only
+                game.run();
+                return true;
             }
-        });
-
+        };*/
     }
 
     public void resize(int width, int height) {
-
+        camera = new OrthographicCamera(width, height);
     }
 
     public void pause() {
@@ -68,15 +83,22 @@ public class MenuScreen implements Screen{
     }
 
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if(game.getGameState() != PAUSED && renderedOnce)
+            return;
+
+        renderedOnce = true;
+
+        camera.update();
 
         batch.begin();
-        //game.batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(gameTitle, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/2, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/3);
+        batch.draw(teamTitle, Gdx.graphics.getWidth()/4, 0, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/4);
+        if(Gdx.input.isTouched()){
+            game.run();
+        }
         batch.end();
 
-        stage.act(delta);
-        stage.draw();
+        //debugRenderer.render(game.world, camera.combined);
     }
 
     public void hide() {
@@ -85,7 +107,7 @@ public class MenuScreen implements Screen{
     }
 
     public void dispose() {
-
-
+        batch.dispose();
+       // gameTitle.dispose();
     }
 }

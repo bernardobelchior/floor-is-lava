@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scriptbakers.floorislava.logic.Game;
 import com.scriptbakers.floorislava.screens.GameOverScreen;
 import com.scriptbakers.floorislava.screens.GameScreen;
+import com.scriptbakers.floorislava.screens.MenuScreen;
 
 import java.util.ArrayList;
 
@@ -16,15 +17,15 @@ public class GameStateManager extends ApplicationAdapter {
 	Game game;
 	SpriteBatch batch;
 
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		game = new Game();
 		screens = new ArrayList<Screen>();
 
+		screens.add(new MenuScreen(game, batch));
 		screens.add(new GameScreen(game, batch));
-		//screens.add(new MenuScreen(this, batch));
-		game.run();
 		}
 
 	@Override
@@ -50,8 +51,9 @@ public class GameStateManager extends ApplicationAdapter {
 				//TODO: Implement
 				break;
 			case RUNNING:
-				if(screens.size() > 1)
-					screens.remove(screens.size()-1);
+				if(screens.size() == 1)
+					System.out.println("ESTA A CORRER");
+					//creens.remove(screens.size());
 				break;
 		}
 	}
