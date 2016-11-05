@@ -69,4 +69,8 @@ public class GameStateManager extends ApplicationAdapter {
 
 	}
 
+	void addState(Screen screen){
+        screens.add(screen);
+    }
+
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.hud.GameHud;
@@ -37,6 +39,7 @@ public class MenuScreen implements Screen{
     boolean renderedOnce;
     Sprite gameTitle, teamTitle;
     Stage stage;
+    ImageButton highScoreButton;
     InputListener inputListener;
 
     public MenuScreen(Game game, SpriteBatch batch) {
@@ -54,6 +57,17 @@ public class MenuScreen implements Screen{
         stage = new Stage(viewport, batch);
         renderedOnce = false;
 
+        TextureRegionDrawable highScoreBtn = new TextureRegionDrawable(new TextureRegion(new Texture("highscores.png")));
+        highScoreButton = new ImageButton(highScoreBtn);
+
+        highScoreButtonListener = new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+            }
+        }
+
+        stage.addActor(highScoreButton);
         Gdx.input.setInputProcessor(stage);
     }
 
