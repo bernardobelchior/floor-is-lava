@@ -30,16 +30,14 @@ public class GameStateManager extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		game = new Game();
-		screens = new ArrayList<Screen>();
+        batch = new SpriteBatch();
+        game = new Game(this);
+        screens = new ArrayList<Screen>();
 
-		screens.add(new MenuScreen(game, batch));
-		screens.add(new GameScreen(game, batch));
-		gameOverScreen = new GameOverScreen(game, batch);
+        screens.add(new GameScreen(game, batch));
+        screens.add(new MenuScreen(game, batch));
 
-		game.run();
-		}
+    }
 
 	@Override
 	public void render () {
@@ -64,9 +62,8 @@ public class GameStateManager extends ApplicationAdapter {
 				//TODO: Implement
 				break;
 			case RUNNING:
-				if(screens.size() == 1)
-					System.out.println("ESTA A CORRER");
-					//creens.remove(screens.size());
+				if(screens.size() > 1)
+					screens.remove(screens.size()-1);
 				break;
 		}
 	}
@@ -75,9 +72,5 @@ public class GameStateManager extends ApplicationAdapter {
 	public void dispose () {
 
 	}
-
-	void addState(Screen screen){
-        screens.add(screen);
-    }
 
 }

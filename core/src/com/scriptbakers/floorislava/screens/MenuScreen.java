@@ -32,17 +32,15 @@ import static com.scriptbakers.floorislava.Constants.GameState.RUNNING;
 public class MenuScreen implements Screen{
     //private static MenuScreen ourInstance = new MenuScreen();
     SpriteBatch batch;
-    Game game;
+    final Game game;
     Box2DDebugRenderer debugRenderer;
     OrthographicCamera camera;
     FitViewport viewport;
     boolean renderedOnce;
     Sprite gameTitle, teamTitle;
     Stage stage;
-    ImageButton highScoreButton;
-    InputListener inputListener;
 
-    public MenuScreen(Game game, SpriteBatch batch) {
+    public MenuScreen(final Game game, SpriteBatch batch) {
         this.game = game;
         this.batch = batch;
 
@@ -57,20 +55,6 @@ public class MenuScreen implements Screen{
         stage = new Stage(viewport, batch);
         renderedOnce = false;
 
-        TextureRegionDrawable highScoreBtn = new TextureRegionDrawable(new TextureRegion(new Texture("highscores.png")));
-        highScoreButton = new ImageButton(highScoreBtn);
-
-        InputListener highScoreButtonListener = new InputListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                
-
-
-                return true;
-            }
-        };
-
-        stage.addActor(highScoreButton);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -80,6 +64,10 @@ public class MenuScreen implements Screen{
     }
 
     public void pause() {
+
+    }
+
+    public void show(){
 
     }
 
@@ -98,6 +86,7 @@ public class MenuScreen implements Screen{
         batch.begin();
         batch.draw(gameTitle, viewport.getWorldWidth()/4,viewport.getWorldHeight()/2, viewport.getWorldWidth()/2, viewport.getWorldHeight()/3);
         batch.draw(teamTitle,  viewport.getWorldWidth()/4,0, viewport.getWorldWidth()/2, viewport.getWorldHeight()/4);
+        stage.act(delta);
         if(Gdx.input.isTouched()){
             game.run();
         }

@@ -83,6 +83,8 @@ public class Player {
                 body.setLinearVelocity(0f, 0f);
             }
         }
+
+        setAlive(alive);
     }
 
     public void jump(Vector2 jumpVector){

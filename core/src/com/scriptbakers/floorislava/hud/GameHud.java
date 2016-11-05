@@ -31,8 +31,7 @@ public class GameHud {
     //TODO display score
     InputListener inputListener;
     Game game;
-    Sprite arrow; //TODO remove
-
+    Sprite arrow;
 
     public GameHud(final Game game, final SpriteBatch batch, Viewport viewport){
         this.batch = batch;
@@ -40,7 +39,7 @@ public class GameHud {
         this.game = game;
         this.stage = new Stage(viewport, batch);
         this.stage.addActor(table);
-        Gdx.input.setInputProcessor(stage);
+
         this.arrow = new Sprite(new Texture("arrow.png"));
         final int ARROW_MAX_LEN = 100;
 
@@ -72,6 +71,7 @@ public class GameHud {
         };
 
         this.stage.addListener(inputListener);
+        Gdx.input.setInputProcessor(this.stage);
 
     }
 

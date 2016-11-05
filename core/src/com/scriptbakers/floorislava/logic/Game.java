@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.scriptbakers.floorislava.Constants;
+import com.scriptbakers.floorislava.GameStateManager;
 import com.scriptbakers.floorislava.logic.gameentities.Lava;
 import com.scriptbakers.floorislava.logic.gameentities.furniture.Furniture;
 import com.scriptbakers.floorislava.logic.gameentities.Player;
@@ -29,6 +30,7 @@ public class Game {
     public final World world;
     public final Player player;
     private ArrayList<Lava> lavaPatches;
+    public GameStateManager gsm;
 
 
     private int noUpdates;
@@ -41,12 +43,13 @@ public class Game {
 
     private ArrayList<Furniture> furnitures;
 
-    public Game() {
+    public Game(GameStateManager gsm) {
         world = new World(Constants.INITIAL_GRAVITY, true);
         player = new Player(world, PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_WIDTH, PLAYER_HEIGHT);
         furnitureSpawner = new FurnitureSpawner(world);
         lavaPatches = new ArrayList<Lava>();
         furnitures =  new ArrayList<Furniture>();
+        this.gsm = gsm;
 
         noUpdates = 0;
         gameState = PAUSED;
