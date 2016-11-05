@@ -92,13 +92,10 @@ public class GameHud {
 
         if (tempVec.len() <= Constants.MAX_JUMPVEC_LEN) {
             this.jumpVector.set(tempVec);
-        }
-
-        else {
+        } else {
             this.jumpVector.setAngle(tempVec.angle());
             this.jumpVector.setLength(Constants.MAX_JUMPVEC_LEN);
         }
-
     }
 
     public void deleteJumpVector(){
