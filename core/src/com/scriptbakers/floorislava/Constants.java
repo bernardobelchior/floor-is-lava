@@ -36,7 +36,7 @@ public class Constants {
 
     public static final float SCROLL_VELOCITY = -WORLD_HEIGHT/32;
 
-    public static final float LEFT_LAVA_THRESHOLD = WORLD_WIDTH/3;
+    public static final float LEFT_LAVA_THRESHOLD = WORLD_WIDTH/5;
     public static final float RIGHT_LAVA_THRESHOLD = WORLD_WIDTH - LEFT_LAVA_THRESHOLD;
 
     public static final float OBSTACLE_RADIUS = 1.5f*PLAYER_WIDTH;

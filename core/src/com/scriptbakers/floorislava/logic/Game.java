@@ -8,9 +8,15 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.physics.box2d.World;
+import com.scriptbakers.floorislava.logic.ObstacleGenerator;
+import com.scriptbakers.floorislava.logic.gameentities.Obstacle;
 import com.scriptbakers.floorislava.logic.gameentities.Player;
 import com.scriptbakers.floorislava.Constants;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import static com.scriptbakers.floorislava.Constants.*;
 import static com.scriptbakers.floorislava.Constants.GameState.OVER;
@@ -28,7 +34,7 @@ public class Game {
     private int noUpdates;
     private ObstacleGenerator obstacleGenerator;
     private GameState gameState;
-
+    private ArrayList<Obstacle> obstacles;
     public Game() {
         world = new World(Constants.INITIAL_GRAVITY, true);
         world.setContactListener(new GameContactListener());
@@ -38,6 +44,7 @@ public class Game {
 
         noUpdates = 0;
         gameState = PAUSED;
+        obstacles =  new ArrayList<Obstacle>();
     }
 
     private void createWalls() {
@@ -90,8 +97,18 @@ public class Game {
 
         noUpdates++;
 
-        if(noUpdates % (60/ OBSTACLE_GENENATION_PER_SECOND) == 0)
-            obstacleGenerator.generateObstacle(Math.round(player.getPosition().y));
+        if(noUpdates % (60/ OBSTACLE_GENENATION_PER_SECOND) == 0){
+            obstacles.add(obstacleGenerator.generateObstacle(Math.round(player.getPosition().y)));
+        }
+
+        Iterator<Obstacle> obstacleIterator = obstacles.iterator();
+        while (obstacleIterator.hasNext()){
+            if(obstacleIterator.next().getPosition().y < 0){
+                obstacles.remove(obstacleIterator);
+            }
+        }
+
+
     }
 
     public void run() {
@@ -104,5 +121,9 @@ public class Game {
 
     public GameState getGameState(){
         return gameState;
+    }
+
+    public ArrayList<Obstacle> getObstacles(){
+        return this.obstacles;
     }
 }

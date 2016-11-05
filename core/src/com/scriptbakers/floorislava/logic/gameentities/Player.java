@@ -98,4 +98,8 @@ public class Player {
     public boolean isAlive() {
         return alive;
     }
+
+    public boolean isJumping(){
+        return jumpTime>0;
+    }
 }

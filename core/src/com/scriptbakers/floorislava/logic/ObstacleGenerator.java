@@ -22,7 +22,7 @@ public class ObstacleGenerator {
         this.world = world;
     }
 
-    public void generateObstacle(int cameraY) {
+    public Obstacle generateObstacle(int cameraY) {
         int y = cameraY+ WORLD_HEIGHT/2;
         y += Math.random()*WORLD_HEIGHT;
 
@@ -44,7 +44,8 @@ public class ObstacleGenerator {
             shape.setRadius(OBSTACLE_RADIUS);
         }
 
-        new Obstacle(world, shape, y, side);
+        Obstacle obs = new Obstacle(world, shape, y, side);
         shape.dispose();
+        return obs;
     }
 }
