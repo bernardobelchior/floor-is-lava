@@ -31,7 +31,7 @@ public class GameHud {
     //TODO display score
     InputListener inputListener;
     Game game;
-    Sprite arrow;
+
 
     public GameHud(final Game game, final SpriteBatch batch, Viewport viewport){
         this.batch = batch;
@@ -40,31 +40,24 @@ public class GameHud {
         this.stage = new Stage(viewport, batch);
         this.stage.addActor(table);
 
-        this.arrow = new Sprite(new Texture("arrow.png"));
-        final int ARROW_MAX_LEN = 100;
+        Gdx.input.setInputProcessor(stage);
+
 
         this.inputListener = new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //TODO check if not pressing any button
                 createJumpVector(x,y);
-                arrow.setBounds(game.player.getPosition().x-8,game.player.getPosition().y,0,0);
-                arrow.setOriginCenter();
-                arrow.setOrigin(arrow.getOriginX(), arrow.getOriginY() - arrow.getHeight()/2);
                 return true;
             }
 
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                updateJumpVector(x,y);
-                arrow.setOrigin(arrow.getWidth()/2, 0);
-                arrow.setSize(15,ARROW_MAX_LEN*jumpVector.len()/Constants.MAX_JUMP_VECTOR_LENGTH);
-                arrow.setRotation(90 + jumpVector.angle());
+                updateJumpVector(x, y);
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                arrow.setBounds(0,0,0,0);
                 endJumpVector();
                 deleteJumpVector();
             }
@@ -110,7 +103,7 @@ public class GameHud {
 
     public void draw(){
         batch.begin();
-        arrow.draw(batch);
+
         batch.end();
     }
 

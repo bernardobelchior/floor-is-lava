@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.hud.GameHud;
@@ -35,7 +36,7 @@ public class MenuScreen implements Screen{
     final Game game;
     Box2DDebugRenderer debugRenderer;
     OrthographicCamera camera;
-    FitViewport viewport;
+    ExtendViewport viewport;
     boolean renderedOnce;
     Sprite gameTitle, teamTitle;
     Stage stage;
@@ -50,7 +51,7 @@ public class MenuScreen implements Screen{
         teamTitle = new Sprite(new Texture("teamTitle.png"));
         gameTitle.scale(0.2f);
         camera = new OrthographicCamera(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
-        viewport = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
+        viewport = new ExtendViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
         camera.position.set(Constants.WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
         stage = new Stage(viewport, batch);
         renderedOnce = false;
@@ -89,10 +90,13 @@ public class MenuScreen implements Screen{
         batch.draw(gameTitle, viewport.getWorldWidth()/4,viewport.getWorldHeight()/2, viewport.getWorldWidth()/2, viewport.getWorldHeight()/3);
         batch.draw(teamTitle,  viewport.getWorldWidth()/4,0, viewport.getWorldWidth()/2, viewport.getWorldHeight()/4);
         stage.act(delta);
+        batch.end();
         if(Gdx.input.isTouched()){
             game.run();
         }
-        batch.end();
+
+        batch.setProjectionMatrix(stage.getCamera().combined);
+
 
         //debugRenderer.render(game.world, camera.combined);
     }

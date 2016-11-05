@@ -66,6 +66,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
         camera.update();
         timeElapsed += Gdx.graphics.getDeltaTime();
 
@@ -96,8 +97,8 @@ public class GameScreen implements Screen {
         if(game.player.isJumping())
             frame = jumpingAnimation.getKeyFrames()[2];
 
-        float x = game.getPlayerPosition().x-PLAYER_WIDTH/2;
-        float y = game.getPlayerPosition().y-PLAYER_HEIGHT/2;
+        float x = game.getPlayerPosition().x-PLAYER_WIDTH;
+        float y = game.getPlayerPosition().y-PLAYER_HEIGHT;
         float width = PLAYER_WIDTH*PIXELS_PER_METER;
         float height = PLAYER_HEIGHT*PIXELS_PER_METER;
 

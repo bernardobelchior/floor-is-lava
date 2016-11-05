@@ -40,7 +40,7 @@ public class GameStateManager extends ApplicationAdapter {
     }
 
 	@Override
-	public void render () {
+	public void render() {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -55,8 +55,14 @@ public class GameStateManager extends ApplicationAdapter {
 	public void updateGameState(){
 		switch (game.getGameState()) {
 			case OVER:
-				if(screens.size() < 2)
-					screens.add(new GameOverScreen(game, batch));
+				if(screens.size() < 2) {
+                    System.out.println("Adding game over screen");
+                    screens.add(new GameOverScreen(game, batch));
+                }
+                else{
+                    System.out.println("DEAD");
+                    System.out.println(screens.size());
+                }
 				break;
 			case PAUSED:
 				//TODO: Implement
@@ -64,6 +70,8 @@ public class GameStateManager extends ApplicationAdapter {
 			case RUNNING:
 				if(screens.size() > 1)
 					screens.remove(screens.size()-1);
+					System.out.println("ESTA A CORRER");
+				//	screens.remove(0);
 				break;
 		}
 	}

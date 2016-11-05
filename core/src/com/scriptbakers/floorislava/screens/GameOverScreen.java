@@ -3,13 +3,17 @@ package com.scriptbakers.floorislava.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.logic.Game;
 
 /**
@@ -18,6 +22,7 @@ import com.scriptbakers.floorislava.logic.Game;
 
 public class GameOverScreen implements Screen{
     private ImageButton replayButton;
+    private Sprite skull;
     private Skin skin;
     private TextureAtlas buttonsAtlas;
     private Stage stage;
@@ -30,6 +35,7 @@ public class GameOverScreen implements Screen{
 
         //backgroud image
         skin = new Skin();
+        skull = new Sprite(new Texture("squareSkull.png"));
         stage= new Stage();
     }
 
@@ -56,8 +62,13 @@ public class GameOverScreen implements Screen{
 
     @Override
     public void render(float delta) {
-        stage.act(delta);
+        batch.begin();
+        batch.draw(skull, Constants.WORLD_WIDTH/2 - skull.getWidth()/2,
+                Constants.WORLD_HEIGHT/2 + skull.getHeight()/2,skull.getWidth(), skull.getHeight() );
         stage.draw();
+        batch.end();
+        stage.act(delta);
+
     }
 
     @Override
