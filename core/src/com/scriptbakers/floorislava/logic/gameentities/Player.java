@@ -1,5 +1,9 @@
 package com.scriptbakers.floorislava.logic.gameentities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -24,6 +28,7 @@ public class Player {
     boolean jumping;
     public final Body body;
     int jumpTime;
+
 
 
     public Player(World world, float x, float y, float width, float height){
@@ -51,7 +56,6 @@ public class Player {
         body.setGravityScale(0);
 
         jumpTime = 0;
-
         player.dispose();
     }
 
@@ -80,5 +84,10 @@ public class Player {
 
     public Vector2 getPosition() {
         return position;
+    }
+
+
+    public boolean isJumping() {
+        return jumping;
     }
 }

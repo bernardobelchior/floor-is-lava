@@ -42,7 +42,7 @@ public class GameHud {
         this.stage = new Stage(this.vport, this.batch);
         this.stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
-        this.arrow = new TextureRegionDrawable(new TextureRegion(new Texture("tmparrow.jpg")));
+
         this.inputListener = new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
