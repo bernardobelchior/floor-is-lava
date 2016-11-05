@@ -15,11 +15,37 @@ import com.scriptbakers.floorislava.screens.MenuScreen;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 import static com.scriptbakers.floorislava.Constants.GameState.OVER;
 import static com.scriptbakers.floorislava.Constants.GameState.PAUSED;
 import static com.scriptbakers.floorislava.Constants.GameState.RUNNING;
 
+public class GameStateManager{
+    private Stack<State> states;
+
+    public GameStateManager(){
+        this.states = new Stack<State>();
+    }
+
+    public void push(State state){
+        states.push(state);
+    }
+
+    public void render(float delta){
+        states.peek().render(delta);
+    }
+
+    public void pop(){
+        states.pop().dispose();
+    }
+
+    public void set(State state){
+        states.pop().dispose();
+        states.push(state);
+    }
+};
+/*
 public class GameStateManager extends ApplicationAdapter {
 	ArrayList<Screen> screens;
 	Game game;
@@ -74,3 +100,4 @@ public class GameStateManager extends ApplicationAdapter {
 	}
 
 }
+*/

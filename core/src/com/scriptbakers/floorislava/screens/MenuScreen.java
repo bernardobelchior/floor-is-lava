@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.scriptbakers.floorislava.Constants;
+import com.scriptbakers.floorislava.FloorIsLava;
 import com.scriptbakers.floorislava.hud.GameHud;
 import com.scriptbakers.floorislava.logic.Game;
 
@@ -32,7 +33,7 @@ import static com.scriptbakers.floorislava.Constants.GameState.RUNNING;
 public class MenuScreen implements Screen{
     //private static MenuScreen ourInstance = new MenuScreen();
     SpriteBatch batch;
-    final Game game;
+    FloorIsLava game;
     Box2DDebugRenderer debugRenderer;
     OrthographicCamera camera;
     FitViewport viewport;
@@ -40,9 +41,9 @@ public class MenuScreen implements Screen{
     Sprite gameTitle, teamTitle;
     Stage stage;
 
-    public MenuScreen(final Game game, SpriteBatch batch) {
+    public MenuScreen(FloorIsLava game) {
         this.game = game;
-        this.batch = batch;
+        batch = game.batch;
 
         //debugRenderer = new Box2DDebugRenderer();
 
@@ -54,6 +55,7 @@ public class MenuScreen implements Screen{
         camera.position.set(Constants.WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
         stage = new Stage(viewport, batch);
         renderedOnce = false;
+
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -76,7 +78,7 @@ public class MenuScreen implements Screen{
     }
 
     public void render(float delta) {
-        if(game.getGameState() != PAUSED && renderedOnce)
+        if(renderedOnce)
             return;
 
         renderedOnce = true;
@@ -88,7 +90,8 @@ public class MenuScreen implements Screen{
         batch.draw(teamTitle,  viewport.getWorldWidth()/4,0, viewport.getWorldWidth()/2, viewport.getWorldHeight()/4);
         stage.act(delta);
         if(Gdx.input.isTouched()){
-            game.run();
+            batch.end();
+            game.gsm.pop();
         }
         batch.end();
 
