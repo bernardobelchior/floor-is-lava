@@ -96,21 +96,21 @@ public class GameScreen implements Screen {
             Obstacle tempObstacle=obstacleIterator.next();
             switch (tempObstacle.getObstacleType()) {
                 case 1:
-                    batch.draw(table, tempObstacle.getPosition().x*Gdx.graphics.getWidth()/viewport.getWorldWidth(), tempObstacle.getPosition().y*Gdx.graphics.getHeight()/viewport.getWorldHeight(), viewport.getWorldWidth(), viewport.getWorldHeight()/2);
+                    batch.draw(table, tempObstacle.getPosition().x*Gdx.graphics.getWidth()/viewport.getWorldWidth()- viewport.getWorldWidth()/2, tempObstacle.getPosition().y*Gdx.graphics.getHeight()/viewport.getWorldHeight()-viewport.getWorldHeight()/2, viewport.getWorldWidth(), viewport.getWorldHeight()/2);
                     break;
                 case 2:
-                    batch.draw(piano, tempObstacle.getPosition().x*Gdx.graphics.getWidth()/viewport.getWorldWidth(), tempObstacle.getPosition().y*Gdx.graphics.getHeight()/viewport.getWorldHeight(), viewport.getWorldWidth(), viewport.getWorldHeight()/2);
+                    batch.draw(piano, tempObstacle.getPosition().x*Gdx.graphics.getWidth()/viewport.getWorldWidth() - viewport.getWorldWidth()/2, tempObstacle.getPosition().y*Gdx.graphics.getHeight()/viewport.getWorldHeight() - viewport.getWorldHeight()/2, viewport.getWorldWidth(), viewport.getWorldHeight()/2);
                     break;
                 case 3:
-                    batch.draw(bed, tempObstacle.getPosition().x*Gdx.graphics.getWidth()/viewport.getWorldWidth(), tempObstacle.getPosition().y*Gdx.graphics.getHeight()/viewport.getWorldHeight(), viewport.getWorldWidth(), viewport.getWorldHeight()/2);
+                    batch.draw(bed, tempObstacle.getPosition().x*Gdx.graphics.getWidth()/viewport.getWorldWidth() - viewport.getWorldWidth()/2, tempObstacle.getPosition().y*Gdx.graphics.getHeight()/viewport.getWorldHeight() -viewport.getWorldHeight()/2, viewport.getWorldWidth(), viewport.getWorldHeight()/2);
                     break;
             }
         }
 
         if(game.player.isJumping()==true)
-            batch.draw(jumpingAnimation.getKeyFrames()[2],game.player.getPosition().x*(Gdx.graphics.getWidth()/viewport.getWorldWidth()),game.player.getPosition().y*(Gdx.graphics.getHeight()/viewport.getWorldHeight()));
+            batch.draw(jumpingAnimation.getKeyFrames()[2],game.player.getPosition().x*(Gdx.graphics.getWidth()/viewport.getWorldWidth())-250/2,game.player.getPosition().y*(Gdx.graphics.getHeight()/viewport.getWorldHeight())-300);
         else
-            batch.draw(runningAnimation.getKeyFrame(timePassed,true),game.player.getPosition().x*(Gdx.graphics.getWidth()/viewport.getWorldWidth()),game.player.getPosition().y*(Gdx.graphics.getHeight()/viewport.getWorldHeight()));
+            batch.draw(runningAnimation.getKeyFrame(timePassed,true),game.player.getPosition().x*(Gdx.graphics.getWidth()/viewport.getWorldWidth())-128/2,game.player.getPosition().y*(Gdx.graphics.getHeight()/viewport.getWorldHeight())-200);
 
         //batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
