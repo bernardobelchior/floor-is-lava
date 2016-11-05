@@ -15,6 +15,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.scriptbakers.floorislava.Constants;
 import com.scriptbakers.floorislava.logic.Game;
 
+import javax.swing.text.View;
+
 /**
  * Created by epassos on 11/4/16.
  */
@@ -23,7 +25,6 @@ public class GameHud {
 
     Stage stage;
     Table table;
-    Viewport vport;
     Vector2 jumpOrigin;
     Vector2 jumpVector;
     SpriteBatch batch;
@@ -33,12 +34,11 @@ public class GameHud {
     Sprite arrow; //TODO remove
 
 
-    public GameHud(final Game game, final SpriteBatch batch){
+    public GameHud(final Game game, final SpriteBatch batch, Viewport viewport){
         this.batch = batch;
-        this.vport = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, new OrthographicCamera());
         this.table = new Table();
         this.game = game;
-        this.stage = new Stage(this.vport, this.batch);
+        this.stage = new Stage(viewport, batch);
         this.stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
         this.arrow = new Sprite(new Texture("arrow.png"));
@@ -109,7 +109,9 @@ public class GameHud {
     }
 
     public void draw(){
+        batch.begin();
         arrow.draw(batch);
+        batch.end();
     }
 
     public Stage getStage(){

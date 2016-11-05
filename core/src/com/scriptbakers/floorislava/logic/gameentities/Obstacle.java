@@ -24,21 +24,23 @@ import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
  * Created by bernardo on 04-11-2016.
  */
 
-public class Obstacle {
+public abstract class Obstacle {
     Body body;
     Random rnd = new Random();
-    float radius;
     int obstacleType;
+    World world;
 
-    public Obstacle(World world, Shape shape, int y, Side side) {
+    public Obstacle(World world) {
+        this.world = world;
+    }
+
+    protected void createBody(Shape shape, int y, Side side, float halfWidth) {
         BodyDef bodyDef = new BodyDef();
-
-        radius = shape.getRadius();
-        float x = shape.getRadius() + OBSTACLE_MARGIN;
 
         Random rnd = new Random();
         obstacleType = rnd.nextInt(3)+1;
 
+        float x = halfWidth + OBSTACLE_MARGIN;
         if(side == Side.RIGHT)
             x = WORLD_WIDTH - x;
 
@@ -66,7 +68,9 @@ public class Obstacle {
         return obstacleType;
     }
 
-    public float getRadius() {
-return radius;
+    public Body getBody() {
+        return body;
     }
+
+    public abstract Vector2 getDimensions();
 }

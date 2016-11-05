@@ -5,8 +5,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.scriptbakers.floorislava.logic.Game;
@@ -18,6 +23,9 @@ import com.scriptbakers.floorislava.logic.gameentities.Obstacle;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static com.scriptbakers.floorislava.Constants.PIXELS_PER_METER;
+import static com.scriptbakers.floorislava.Constants.PLAYER_HEIGHT;
+import static com.scriptbakers.floorislava.Constants.PLAYER_WIDTH;
 import static com.scriptbakers.floorislava.Constants.WORLD_HEIGHT;
 import static com.scriptbakers.floorislava.Constants.WORLD_WIDTH;
 
@@ -47,20 +55,22 @@ public class GameScreen implements Screen {
     public GameScreen(Game game, SpriteBatch batch) {
         this.game = game;
         this.batch = batch;
-        this.hud = new GameHud(game, batch);
 
         debugRenderer = new Box2DDebugRenderer();
+        camera = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
+        viewport = new ExtendViewport(WORLD_WIDTH, 0, camera);
+        this.hud = new GameHud(game, batch, viewport);
+
+        // Needed in order to make the game full screen.
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        camera.position.set(WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
+
 
         table = new Texture(Gdx.files.internal("squareTable.png"));
         piano = new Texture(Gdx.files.internal("squarePiano.png"));
         bed = new Texture(Gdx.files.internal("squareBed.png"));
 
-        camera = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
-        viewport = new ExtendViewport(WORLD_WIDTH, 0, camera);
-        // Needed in order to make the game full screen.
-        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        camera.position.set(WORLD_WIDTH/2, Constants.WORLD_HEIGHT/2, 0);
         playerRunning = new TextureAtlas(Gdx.files.internal("boy.atlas"));
         playerJumping = new TextureAtlas(Gdx.files.internal("boyJumping.atlas"));
 
@@ -77,37 +87,51 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         camera.update();
 
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
         timeElapsed += Gdx.graphics.getDeltaTime();
 
         obstacles=game.getObstacles();
-        Iterator<Obstacle> obstacleIterator = obstacles.iterator();
-        while (obstacleIterator.hasNext()){
-            Obstacle tempObstacle=obstacleIterator.next();
-            switch (tempObstacle.getObstacleType()) {
+
+        for (Obstacle obstacle : obstacles) {
+            Texture texture = table;
+
+            switch (obstacle.getObstacleType()) {
                 case 1:
-                    batch.draw(table, tempObstacle.getPosition().x*Gdx.graphics.getWidth()/viewport.getWorldWidth()- viewport.getWorldWidth()/2, tempObstacle.getPosition().y*Gdx.graphics.getHeight()/viewport.getWorldHeight()-viewport.getWorldHeight()/2, viewport.getWorldWidth(), viewport.getWorldHeight()/2);
+                    texture = table;
                     break;
                 case 2:
-                    batch.draw(piano, tempObstacle.getPosition().x*Gdx.graphics.getWidth()/viewport.getWorldWidth() - viewport.getWorldWidth()/2, tempObstacle.getPosition().y*Gdx.graphics.getHeight()/viewport.getWorldHeight() - viewport.getWorldHeight()/2, viewport.getWorldWidth(), viewport.getWorldHeight()/2);
+                    texture = piano;
                     break;
                 case 3:
-                    batch.draw(bed, tempObstacle.getPosition().x*Gdx.graphics.getWidth()/viewport.getWorldWidth() - viewport.getWorldWidth()/2, tempObstacle.getPosition().y*Gdx.graphics.getHeight()/viewport.getWorldHeight() -viewport.getWorldHeight()/2, viewport.getWorldWidth(), viewport.getWorldHeight()/2);
+                    texture = bed;
                     break;
             }
+
+            float x = obstacle.getPosition().x-obstacle.getDimensions().x;
+            float y = obstacle.getPosition().y-obstacle.getDimensions().y;
+            float width = obstacle.getDimensions().x*2;
+            float height = obstacle.getDimensions().y*2;
+
+            batch.draw(texture, x, y, width, height);
         }
 
-        if(game.player.isJumping()==true)
-            batch.draw(jumpingAnimation.getKeyFrames()[2],game.player.getPosition().x*(Gdx.graphics.getWidth()/viewport.getWorldWidth())-250/2,game.player.getPosition().y*(Gdx.graphics.getHeight()/viewport.getWorldHeight())-300);
-        else
-            batch.draw(runningAnimation.getKeyFrame(timeElapsed,true),game.player.getPosition().x*(Gdx.graphics.getWidth()/viewport.getWorldWidth())-128/2,game.player.getPosition().y*(Gdx.graphics.getHeight()/viewport.getWorldHeight())-200);
+        TextureRegion frame = runningAnimation.getKeyFrame(timeElapsed,true);
+        if(game.player.isJumping())
+            frame = jumpingAnimation.getKeyFrames()[2];
+
+        float x = game.getPlayerPosition().x-PLAYER_WIDTH/2;
+        float y = game.getPlayerPosition().y-PLAYER_HEIGHT/2;
+        float width = PLAYER_WIDTH*PIXELS_PER_METER/2;
+        float height = PLAYER_HEIGHT*PIXELS_PER_METER/2;
+
+        batch.draw(frame, x, y, width, height);
 
         //batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        hud.draw();
         batch.end();
-        batch.setProjectionMatrix(hud.getStage().getCamera().combined);
 
         debugRenderer.render(game.world, camera.combined);
+        hud.draw();
     }
 
     @Override

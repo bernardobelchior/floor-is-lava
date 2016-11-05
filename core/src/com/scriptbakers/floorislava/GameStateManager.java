@@ -38,13 +38,9 @@ public class GameStateManager extends ApplicationAdapter {
 		game.update(1/60f);
 		updateGameState();
 
-		screens.get(0).render(1/60f);
-		if(game.getGameState() == Constants.GameState.OVER)
-			gameOverScreen.render(1/60f);
-
-//		for (Screen screen:	screens) {
-//			screen.render(1/60f);
-//		}
+		for (Screen screen:	screens) {
+			screen.render(1/60f);
+		}
 	}
 
 	public void updateGameState(){

@@ -1,5 +1,6 @@
 package com.scriptbakers.floorislava;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -14,6 +15,8 @@ public class Constants {
 
     public static final int WORLD_WIDTH = 256;
     public static final int WORLD_HEIGHT = 512;
+
+    public static final float PIXELS_PER_METER = Gdx.graphics.getWidth()/WORLD_WIDTH;
 
     public static final Vector2 INITIAL_GRAVITY = new Vector2(0, 0);
 

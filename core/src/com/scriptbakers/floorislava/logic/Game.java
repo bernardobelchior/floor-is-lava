@@ -1,5 +1,6 @@
 package com.scriptbakers.floorislava.logic;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
@@ -96,7 +97,7 @@ public class Game {
 
         for (int i = obstacles.size() - 1; i >= 0; i--) {
             Obstacle obstacle = obstacles.get(i);
-            if(obstacle.getPosition().y - obstacle.getRadius() < 0)
+            if(obstacle.getPosition().y - obstacle.getDimensions().y< 0)
                 obstacles.remove(i);
         }
 
@@ -132,5 +133,9 @@ public class Game {
 
     public ArrayList<Obstacle> getObstacles(){
         return this.obstacles;
+    }
+
+    public Vector2 getPlayerPosition() {
+        return player.getPosition();
     }
 }
