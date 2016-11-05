@@ -102,11 +102,12 @@ public class Game {
 
         if(noUpdates % (int) ( 60/LAVA_GENERATION_PER_SECOND) == 0) {
             float length = (float) (Math.random()*2+1) * LAVA_PATCH_MIN_LENGTH;
+                Lava patch = new Lava(world, 1.5f*WORLD_HEIGHT + LAVA_PATCH_MIN_LENGTH*3, length);
 
-                lavaPatches.add(new Lava(world, 1.5f*WORLD_HEIGHT + LAVA_PATCH_MIN_LENGTH*3, length));
+                lavaPatches.add(patch);
 
                 for(int i = 0; i < Math.random()*length/LAVA_PATCH_MIN_LENGTH*2+1; i++) {
-                    furnitures.add(furnitureSpawner.generateObstacle(lavaPatches.get(lavaPatches.size()-1).getPosition().y));
+                    furnitures.add(furnitureSpawner.generateObstacle(patch.getPosition().y, length));
                 }
             }
 

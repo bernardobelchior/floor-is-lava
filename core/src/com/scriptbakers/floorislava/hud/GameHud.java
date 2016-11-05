@@ -59,7 +59,7 @@ public class GameHud {
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
                 updateJumpVector(x,y);
                 arrow.setOrigin(arrow.getWidth()/2, 0);
-                arrow.setSize(15,ARROW_MAX_LEN*jumpVector.len()/Constants.MAX_JUMP_VECTOR_LENGTH);
+                arrow.setBounds(game.player.getPosition().x-8,game.player.getPosition().y ,15,ARROW_MAX_LEN*jumpVector.len()/Constants.MAX_JUMP_VECTOR_LENGTH);
                 arrow.setRotation(90 + jumpVector.angle());
             }
 

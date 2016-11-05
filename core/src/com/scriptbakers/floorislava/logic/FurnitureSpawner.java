@@ -24,8 +24,8 @@ public class FurnitureSpawner {
         this.world = world;
     }
 
-    public Furniture generateObstacle(float y) {
-        y += (Math.random()*4-2)* LAVA_PATCH_MIN_LENGTH /4;
+    public Furniture generateObstacle(float y, float patchLength) {
+        y += Math.random()* patchLength;
 
         float x = LEFT_LAVA_THRESHOLD/2;
 
