@@ -1,5 +1,7 @@
 package com.scriptbakers.floorislava.logic;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ContactFilter;
@@ -11,6 +13,9 @@ import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
 import com.scriptbakers.floorislava.logic.gameentities.Player;
 import com.scriptbakers.floorislava.Constants;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 import static com.scriptbakers.floorislava.Constants.*;
 import static com.scriptbakers.floorislava.Constants.GameState.OVER;
@@ -29,6 +34,10 @@ public class Game {
     private ObstacleGenerator obstacleGenerator;
     private GameState gameState;
 
+    //scores
+    public ArrayList<Integer> scores;
+    private Preferences scoresPref;
+
     public Game() {
         world = new World(Constants.INITIAL_GRAVITY, true);
         world.setContactListener(new GameContactListener());
@@ -38,6 +47,22 @@ public class Game {
 
         noUpdates = 0;
         gameState = PAUSED;
+
+        //scores
+        scores = new ArrayList<Integer>();
+        scores.add(0);
+        scores.add(0);
+        scores.add(0);
+
+        scoresPref = Gdx.app.getPreferences("HighScores");
+        String name = scoresPref.getString("name", "no name");
+        if(name.equals("no name")){
+            scoresPref.putInteger("scores1", 0);
+            scoresPref.putInteger("scores2", 0);
+            scoresPref.putInteger("scores3", 0);
+        }
+        else
+            readScores();
     }
 
     private void createWalls() {
@@ -104,5 +129,22 @@ public class Game {
 
     public GameState getGameState(){
         return gameState;
+    }
+
+    public void readScores() {
+        scores.add(scoresPref.getInteger("score1"));
+        scores.add(scoresPref.getInteger("score2"));
+        scores.add(scoresPref.getInteger("score3"));
+    }
+
+    public void writeScores(){
+        Collections.sort(scores);
+        Collections.reverse(scores);
+        scoresPref.putString("name", "floor is lava");
+        scoresPref.putInteger("score1", scores.get(0));
+        scoresPref.putInteger("score2", scores.get(1));
+        scoresPref.putInteger("score3", scores.get(2));
+
+        scoresPref.flush();
     }
 }
